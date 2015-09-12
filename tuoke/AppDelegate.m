@@ -7,16 +7,42 @@
 //
 
 #import "AppDelegate.h"
+#import "ViewController.h"
+#import "LoginViewController.h"
+#import <BaiduMapAPI/BMapKit.h>
 
-@interface AppDelegate ()
-
+@interface AppDelegate ()<BMKGeneralDelegate>
+{
+    BMKMapManager* _mapManager;
+}
 @end
 
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    //pnAYzADGMp5cfO6ZtVnaYEOn
     // Override point for customization after application launch.
+    _mapManager = [[BMKMapManager alloc]init];
+    BOOL ret = [_mapManager start:@"pnAYzADGMp5cfO6ZtVnaYEOn" generalDelegate:self];
+    
+    if (!ret) {
+        NSLog(@"manager start failed!");
+    }
+
+    self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.backgroundColor =[UIColor whiteColor];
+    ViewController *VC = [[ViewController alloc]init];
+    LoginViewController *loginVC = [[LoginViewController alloc]init];
+
+    BOOL A = NO;
+    if (A) {
+        self.window.rootViewController = loginVC;
+    }
+    else
+        self.window.rootViewController = VC;
+    
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
