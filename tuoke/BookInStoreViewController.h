@@ -14,15 +14,15 @@
 {
     NSString *storeName;
     NSString *storeType;
-    NSString *storeImageName;
+    UIImage *storeImage;
     
     NSString *city;
     NSString *address;
     
     NSString *storeManName;
     NSString *storeManPhone;
-    NSString *storeImageCard1;
-    NSString *storeImageCard2;
+    UIImage *storeImageCard1;
+    UIImage *storeImageCard2;
     
     NSString *visitName;
     NSString *visitPhone;
@@ -47,5 +47,19 @@
     
     BMKLocationService* _locService;
     BMKGeoCodeSearch* _geocodesearch;
+    
+    int imageType;
+    
+    NSString *storeImageFileId;
+    NSString *storeImageCard1FileId;
+    NSString *storeImageCard2FileId;
+    
+    NSString *storeImagePath;
+    NSString *storeImageCard1Path;
+    NSString *storeImageCard2Path;
+    
+    NSInteger storeManType;
+    NSInteger visitManType;
+    
 }
 @end

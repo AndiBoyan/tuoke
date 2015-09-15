@@ -10,32 +10,35 @@
 #import "UserInfoViewController.h"
 #import "BookInStoreViewController.h"
 #import "LinkViewController.h"
+#import "URLApi.h"
+
 @interface MainViewController ()
-{
-    NSArray *array1;
-    NSArray *array2;
-    NSArray *array3;
-}
+
 @end
 
 @implementation MainViewController
 
 - (void)viewDidLoad {
-    self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    array1 = @[@"已登记",@"已开店",@"已充值"];
-    array2 = @[@"开始拓客",@"注册链接",@"店铺演示"];
-    array3 = @[@"start.png",@"link.png",@"move.png"];
+    
     [super viewDidLoad];
+    
     // Do any additional setup after loading the view.
-    
+    self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    [self initData];
     [self drawView];
-    
+    [self GetEmployeeInfo];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark 初始化数据
+
+-(void)initData
+{
+    userStateArray = @[@"已登记",@"已开店",@"已充值"];
+    tuokeFuncArray = @[@"开始拓客",@"注册链接",@"店铺演示"];
+    tuokeFuncImageArray = @[@"start.png",@"link.png",@"move.png"];
 }
+
+#pragma mark 绘制界面
 
 -(void)drawView
 {
@@ -48,39 +51,43 @@
     infoIV.image = [UIImage imageNamed:@"background.png"];
     [scroll addSubview:infoIV];
     
-    UIImageView *logoIV = [[UIImageView alloc]initWithFrame:CGRectMake((self.view.frame.size.width-80)/2, 25, 80, 80)];
-    logoIV.image = [UIImage imageNamed:@"Face.png"];
-    [scroll addSubview:logoIV];
+    face = [[UIImageView alloc]initWithFrame:CGRectMake((self.view.frame.size.width-80)/2, 25, 80, 80)];
+    [scroll addSubview:face];
     
-    logoIV.userInteractionEnabled=YES;
+    UIBezierPath *maskPath1 = [UIBezierPath bezierPathWithRoundedRect:face.bounds  byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(40, 40)];
+    CAShapeLayer *maskLayer1 = [[CAShapeLayer alloc] init];
+    maskLayer1.frame = face.bounds;
+    maskLayer1.path = maskPath1.CGPath;
+    face.layer.mask = maskLayer1;
+    
+    face.userInteractionEnabled=YES;
     UITapGestureRecognizer *singleTap =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(userInfoList:)];
-    [logoIV addGestureRecognizer:singleTap];
+    [face addGestureRecognizer:singleTap];
     
-    UILabel *logoLab = [[UILabel alloc]initWithFrame:CGRectMake((self.view.frame.size.width-80)/2, 85, 80, 80)];
-    logoLab.text = @"张大仙";
-    logoLab.textAlignment = NSTextAlignmentCenter;
-    logoLab.textColor = [UIColor whiteColor];
-    logoLab.font = [UIFont systemFontOfSize:14.0f];
-    [scroll addSubview:logoLab];
+    userNameLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 105, self.view.frame.size.width, 20)];
+    userNameLab.textAlignment = NSTextAlignmentCenter;
+    userNameLab.textColor = [UIColor whiteColor];
+    userNameLab.font = [UIFont systemFontOfSize:14.0f];
+    [scroll addSubview:userNameLab];
     
     UIView *stateView = [[UIView alloc]initWithFrame:CGRectMake(0, 150, self.view.frame.size.width, 60)];
     stateView.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.3f];
     [scroll addSubview:stateView];
     float w = self.view.frame.size.width/3;
     for (int i = 0; i < 3; i++) {
-        UILabel *lab1 = [[UILabel alloc]initWithFrame:CGRectMake(i*w, 10, w, 20)];
-        lab1.textColor =[UIColor redColor];
-        lab1.text = @"125";
-        lab1.textAlignment = NSTextAlignmentCenter;
-        lab1.font = [UIFont systemFontOfSize:13.0f];
-        [stateView addSubview:lab1];
+        UILabel *numOfLab = [[UILabel alloc]initWithFrame:CGRectMake(i*w, 10, w, 20)];
+        numOfLab.textColor =[UIColor redColor];
+        numOfLab.text = @"125";
+        numOfLab.textAlignment = NSTextAlignmentCenter;
+        numOfLab.font = [UIFont systemFontOfSize:13.0f];
+        [stateView addSubview:numOfLab];
         
-        UILabel *lab2 = [[UILabel alloc]initWithFrame:CGRectMake(i*w, 30, w, 20)];
-        lab2.textColor =[UIColor whiteColor];
-        lab2.text = [array1 objectAtIndex:i];
-        lab2.textAlignment = NSTextAlignmentCenter;
-        lab2.font = [UIFont systemFontOfSize:13.0f];
-        [stateView addSubview:lab2];
+        UILabel *stateOfLab = [[UILabel alloc]initWithFrame:CGRectMake(i*w, 30, w, 20)];
+        stateOfLab.textColor =[UIColor whiteColor];
+        stateOfLab.text = [userStateArray objectAtIndex:i];
+        stateOfLab.textAlignment = NSTextAlignmentCenter;
+        stateOfLab.font = [UIFont systemFontOfSize:13.0f];
+        [stateView addSubview:stateOfLab];
         
         UIView *view = [[UIView alloc]initWithFrame:CGRectMake((i+1)*w, 10, 1, 40)];
         view.backgroundColor =[UIColor whiteColor];
@@ -92,28 +99,34 @@
     [scroll addSubview:expandView];
     
     for (int i = 0; i < 3; i++) {
-        UIImageView *IV = [[UIImageView alloc]initWithFrame:CGRectMake((w*i)+(w-60)/2, 30, 59, 59)];
-        IV.image = [UIImage imageNamed:[array3 objectAtIndex:i]];
-        IV.tag = 1000+i;
-        [expandView addSubview:IV];
+        UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake((w*i)+(w-60)/2, 30, 59, 59)];
+        imageView.image = [UIImage imageNamed:[tuokeFuncImageArray objectAtIndex:i]];
+        imageView.tag = 1000+i;
+        [expandView addSubview:imageView];
         
-        IV.userInteractionEnabled=YES;
+        imageView.userInteractionEnabled=YES;
         UITapGestureRecognizer *singleTap =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(expand:)];
-        [IV addGestureRecognizer:singleTap];
+        [imageView addGestureRecognizer:singleTap];
 
-        UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(i*w, 100, w, 20)];
-        lab.text = [array2 objectAtIndex:i];
-        lab.textAlignment = NSTextAlignmentCenter;
-        lab.font = [UIFont systemFontOfSize:14.0f];
-        [expandView addSubview:lab];
+        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(i*w, 100, w, 20)];
+        label.text = [tuokeFuncArray objectAtIndex:i];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.font = [UIFont systemFontOfSize:14.0f];
+        [expandView addSubview:label];
     }
 }
+
+#pragma mark 响应函数
 
 -(void)userInfoList:(UITapGestureRecognizer *)recognizer
 {
     UserInfoViewController *VC = [[UserInfoViewController alloc]init];
+    VC.name = name;
+    VC.phone = phone;
+    VC.nickName = nick;
     [self presentViewController:VC animated:YES completion:nil];
 }
+
 -(void)expand:(UITapGestureRecognizer *)recognizer
 {
     UIImageView *img=(UIImageView*)recognizer.view;
@@ -126,5 +139,102 @@
         LinkViewController *vc = [[LinkViewController alloc]init];
         [self presentViewController:vc animated:YES completion:nil];
     }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"敬请期待" message:@"更多内容，敬请期待" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+    }
 }
+
+#pragma mark 获取用户的基本信息
+
+-(void)GetEmployeeInfo
+{
+    // 1.设置请求路径
+    NSURL *URL=[NSURL URLWithString:[URLApi requestURL]];//不需要传递参数
+    //    2.创建请求对象
+    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:URL];//默认为get请求
+    request.timeoutInterval=10.0;//设置请求超时为5秒
+    request.HTTPMethod=@"POST";//设置请求方法
+    NSString *authCode = [URLApi readAuthCodeString];
+    
+    //设置请求体
+    NSString *param=[NSString stringWithFormat:@"Params={\"authCode\":\"%@\"}&Command=tuoke/TK_GetEmployeeInfo",[self encodeToPercentEscapeString:authCode]];
+    NSLog(@"http://passport.admin.3weijia.com/MNMNH.axd?%@",param);
+    //把拼接后的字符串转换为data，设置请求体
+    request.HTTPBody=[param dataUsingEncoding:NSUTF8StringEncoding];
+    
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError)
+     {
+         //将得到的NSData数据转换成NSString
+         if (connectionError) {
+             NSLog(@"网络不给力");
+         }
+         else
+         {
+             NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+             
+             //将数据变成标准的json数据
+             NSLog(@"%@",[self newJsonStr:str]);
+             NSData *newData = [[self newJsonStr:str] dataUsingEncoding:NSUTF8StringEncoding];
+             NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:newData options:NSJSONReadingMutableContainers error:nil];
+             userNameLab.text = [[dic objectForKey:@"JSON"]objectForKey:@"Name"];
+             
+             name = userNameLab.text;
+             phone = [[dic objectForKey:@"JSON"]objectForKey:@"Mobile"];
+             nick = [[dic objectForKey:@"JSON"]objectForKey:@"NickName"];
+         }
+     }];
+
+}
+
+- (NSString *)encodeToPercentEscapeString: (NSString *) input
+{
+    // Encode all the reserved characters, per RFC 3986
+    NSString *outputStr = (NSString *)
+    CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+                                                              (CFStringRef)input,
+                                                              NULL,
+                                                              (CFStringRef)@"!*'();:@&=+$,/?%#[]",
+                                                              kCFStringEncodingUTF8));
+    return outputStr;
+}
+
+- (NSString*)newJsonStr:(NSString*)string
+{
+    string = [string stringByReplacingOccurrencesOfString:@"\"JSON\":\"" withString:@"\"JSON\":"];
+    string = [string stringByReplacingOccurrencesOfString:@"}\"," withString:@"},"];
+    string = [string stringByReplacingOccurrencesOfString:@"]\"," withString:@"],"];
+    string = [string stringByReplacingOccurrencesOfString:@"\"JSON\":\"\\\"\\\"\"" withString:@"\"JSON\":\"\""];
+    string = [string stringByReplacingOccurrencesOfString:@"\\" withString:@""];
+    string = [string stringByReplacingOccurrencesOfString:@"\"JSON\":\"\"" withString:@"\"JSON\":\""];
+    string = [string stringByReplacingOccurrencesOfString:@"\"\",\"ErrorMessage\"" withString:@"\",\"ErrorMessage\""];
+    return string;
+}
+
+#pragma mark 头像是否更换
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    //头像更换
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+    NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"userface.png"]];   // 保存文件的名称
+    ;
+    UIImage *img = [UIImage imageWithContentsOfFile:filePath];
+    if (img) {
+        face.image = img;
+    }
+    else
+    {
+        face.image = [UIImage imageNamed:@"Face.png"];
+    }
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 @end

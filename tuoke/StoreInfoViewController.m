@@ -7,6 +7,7 @@
 //
 
 #import "StoreInfoViewController.h"
+#import "URLApi.h"
 
 @interface StoreInfoViewController ()
 
@@ -18,8 +19,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    [self drawView];
+    //[self drawView];
     [self initNav];
+    [self GetDeptDetail];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -49,92 +51,102 @@
 }
 -(void)drawView
 {
-    UIView *view1 = [[UIView alloc]initWithFrame:CGRectMake(0, 80, self.view.frame.size.width, 150)];
-    view1.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:view1];
+    UIView *StoreView = [[UIView alloc]initWithFrame:CGRectMake(0, 80, self.view.frame.size.width, 150)];
+    StoreView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:StoreView];
     
-    UILabel *lab1 = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 200, 20)];
-    lab1.text = @"门店基本信息";
-    [view1 addSubview:lab1];
-    lab1.textAlignment = NSTextAlignmentLeft;
-    lab1.font = [UIFont systemFontOfSize:14.0f];
+    UILabel *storeBasicLab = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 200, 20)];
+    storeBasicLab.text = @"门店基本信息";
+    [StoreView addSubview:storeBasicLab];
+    storeBasicLab.textAlignment = NSTextAlignmentLeft;
+    storeBasicLab.font = [UIFont systemFontOfSize:14.0f];
     
-    UIView *line1 = [[UILabel alloc]initWithFrame:CGRectMake(15, 40, self.view.frame.size.width-30, 1)];
-    line1.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    [view1 addSubview:line1];
+    UIView *storeLineView = [[UILabel alloc]initWithFrame:CGRectMake(15, 40, self.view.frame.size.width-30, 1)];
+    storeLineView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    [StoreView addSubview:storeLineView];
     
-    UIImageView *image = [[UIImageView alloc]initWithFrame:CGRectMake(15, 60, 60, 60)];
-    image.image = [UIImage imageNamed:@"storelogo.png"];
-    [view1 addSubview:image];
+    UIImageView *storeLogoImage = [[UIImageView alloc]initWithFrame:CGRectMake(15, 60, 60, 60)];
+    storeLogoImage.image = [UIImage imageNamed:@"storelogo.png"];
+    [StoreView addSubview:storeLogoImage];
     
-    UILabel *lab2 = [[UILabel alloc]initWithFrame:CGRectMake(90, 55, 200, 20)];
-    lab2.text = @"22222222";
-    lab2.textAlignment = NSTextAlignmentLeft;
-    lab2.font = [UIFont systemFontOfSize:16.0f];
-    [view1 addSubview:lab2];
+    UILabel *storeNameLab = [[UILabel alloc]initWithFrame:CGRectMake(90, 55, 200, 20)];
+    storeNameLab.text = storeName;
+    storeNameLab.textAlignment = NSTextAlignmentLeft;
+    storeNameLab.font = [UIFont systemFontOfSize:16.0f];
+    [StoreView addSubview:storeNameLab];
     
-    UILabel *lab3 = [[UILabel alloc]initWithFrame:CGRectMake(90, 80, 200, 15)];
-    lab3.text = @"1212121212121";
-    lab3.font = [UIFont systemFontOfSize:12.0f];
-    lab3.textAlignment = NSTextAlignmentLeft;
-    [view1 addSubview:lab3];
+    UILabel *addressLab = [[UILabel alloc]initWithFrame:CGRectMake(90, 80, 200, 15)];
+    addressLab.text = address;
+    addressLab.font = [UIFont systemFontOfSize:12.0f];
+    addressLab.textAlignment = NSTextAlignmentLeft;
+    [StoreView addSubview:addressLab];
     
-    UILabel *lab4 = [[UILabel alloc]initWithFrame:CGRectMake(90, 100, 200, 15)];
-    lab4.text = @"22222222";
-    lab4.textAlignment = NSTextAlignmentLeft;
-    lab4.font = [UIFont systemFontOfSize:12.0f];
-    [view1 addSubview:lab4];
+    UILabel *bookInDateLab = [[UILabel alloc]initWithFrame:CGRectMake(90, 100, 200, 15)];
+    bookInDateLab.text = bookinDate;
+    bookInDateLab.textAlignment = NSTextAlignmentLeft;
+    bookInDateLab.font = [UIFont systemFontOfSize:12.0f];
+    [StoreView addSubview:bookInDateLab];
     
-    UILabel *lab5 = [[UILabel alloc]initWithFrame:CGRectMake(90, 120, 200, 15)];
-    lab5.text = @"1212121212121";
-    lab5.font = [UIFont systemFontOfSize:12.0f];
-    lab5.textAlignment = NSTextAlignmentLeft;
-    [view1 addSubview:lab5];
+    UILabel *setUpDateLab = [[UILabel alloc]initWithFrame:CGRectMake(90, 120, 200, 15)];
+    setUpDateLab.text = setUpDate;
+    setUpDateLab.font = [UIFont systemFontOfSize:12.0f];
+    setUpDateLab.textAlignment = NSTextAlignmentLeft;
+    [StoreView addSubview:setUpDateLab];
 
-    UILabel *lab6 = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width-115, 120, 100, 20)];
-    lab6.text = @"已开店";
-    lab6.textAlignment = NSTextAlignmentRight;
-    lab6.textColor = [UIColor redColor];
-    lab6.font = [UIFont systemFontOfSize:12.0f];
-    [view1 addSubview:lab6];
+    UILabel *storeStateLab = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width-115, 120, 100, 20)];
+    if (type == 0) {
+        storeStateLab.text = @"已登记";
+    }
+    else if (type == 1)
+    {
+        storeStateLab.text = @"已开店";
+    }
+    else
+    {
+        storeStateLab.text = @"已充值";
+    }
+    storeStateLab.textAlignment = NSTextAlignmentRight;
+    storeStateLab.textColor = [UIColor redColor];
+    storeStateLab.font = [UIFont systemFontOfSize:12.0f];
+    [StoreView addSubview:storeStateLab];
     
-    UIView *view2 = [[UIView alloc]initWithFrame:CGRectMake(0, 245, self.view.frame.size.width, 170)];
-    view2.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:view2];
+    UIView *storeManView = [[UIView alloc]initWithFrame:CGRectMake(0, 245, self.view.frame.size.width, 170)];
+    storeManView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:storeManView];
     
-    UILabel *lab7 = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 200, 20)];
-    lab7.text = @"店主资料";
-    [view2 addSubview:lab7];
-    lab7.textAlignment = NSTextAlignmentLeft;
-    lab7.font = [UIFont systemFontOfSize:14.0f];
+    UILabel *storeManLab = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 200, 20)];
+    storeManLab.text = @"店主资料";
+    [storeManView addSubview:storeManLab];
+    storeManLab.textAlignment = NSTextAlignmentLeft;
+    storeManLab.font = [UIFont systemFontOfSize:14.0f];
     
-    UIView *line2 = [[UILabel alloc]initWithFrame:CGRectMake(15, 40, self.view.frame.size.width-30, 1)];
-    line2.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    [view2 addSubview:line2];
+    UIView *storeManLineView = [[UILabel alloc]initWithFrame:CGRectMake(15, 40, self.view.frame.size.width-30, 1)];
+    storeManLineView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    [storeManView addSubview:storeManLineView];
     
-    UILabel *lab8 = [[UILabel alloc]initWithFrame:CGRectMake(15, 55, 150, 30)];
-    lab8.text = @"12121";
-    lab8.font = [UIFont systemFontOfSize:16.0f];
-    lab8.textAlignment = NSTextAlignmentLeft;
-    [view2 addSubview:lab8];
+    UILabel *storeManNameLab = [[UILabel alloc]initWithFrame:CGRectMake(15, 55, 150, 30)];
+    storeManNameLab.text = name;
+    storeManNameLab.font = [UIFont systemFontOfSize:16.0f];
+    storeManNameLab.textAlignment = NSTextAlignmentLeft;
+    [storeManView addSubview:storeManNameLab];
     
-    UILabel *lab9 = [[UILabel alloc]initWithFrame:CGRectMake(15, 90, 150, 20)];
-    lab9.text = @"12212121221212";
-    lab9.font = [UIFont systemFontOfSize:12.0f];
-    [view2 addSubview:lab9];
-    lab9.textAlignment = NSTextAlignmentLeft;
+    UILabel *storeManNPhoneLab = [[UILabel alloc]initWithFrame:CGRectMake(15, 90, 150, 20)];
+    storeManNPhoneLab.text = phone;
+    storeManNPhoneLab.font = [UIFont systemFontOfSize:12.0f];
+    [storeManView addSubview:storeManNPhoneLab];
+    storeManNPhoneLab.textAlignment = NSTextAlignmentLeft;
     
     
-    UIView *line3 = [[UIView alloc]initWithFrame:CGRectMake(15, 120, self.view.frame.size.width-30, 1)];
-    line3.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    [view2 addSubview:line3];
+    UIView *storeManLineView2 = [[UIView alloc]initWithFrame:CGRectMake(15, 120, self.view.frame.size.width-30, 1)];
+    storeManLineView2.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    [storeManView addSubview:storeManLineView2];
     
-    UILabel *lab10 = [[UILabel alloc]initWithFrame:CGRectMake(15, 140, 100, 20)];
-    lab10.text = @"100000000";
-    lab10.textColor = [UIColor redColor];
-    lab10.textAlignment = NSTextAlignmentLeft;
-    lab10.font = [UIFont systemFontOfSize:12.0f];
-    [view2 addSubview:lab10];
+    UILabel *loginDateLab = [[UILabel alloc]initWithFrame:CGRectMake(15, 140, 100, 20)];
+    loginDateLab.text = [NSString stringWithFormat:@"上次登录时间:%@",lastLoginDate];
+    loginDateLab.textColor = [UIColor redColor];
+    loginDateLab.textAlignment = NSTextAlignmentLeft;
+    loginDateLab.font = [UIFont systemFontOfSize:12.0f];
+    [storeManView addSubview:loginDateLab];
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.backgroundColor = [UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:1.0];
@@ -142,13 +154,89 @@
     [button setTitle:@"再次发送账号" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(sendAccout) forControlEvents:UIControlEventTouchUpInside];
-    [view2 addSubview:button];
+    [storeManView addSubview:button];
     
     UIBezierPath *maskPath2 = [UIBezierPath bezierPathWithRoundedRect:button.bounds  byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(2, 2)];
     CAShapeLayer *maskLayer2 = [[CAShapeLayer alloc] init];
     maskLayer2.frame = button.bounds;
     maskLayer2.path = maskPath2.CGPath;
     button.layer.mask = maskLayer2;
+}
+
+#pragma mark 获取用户的基本信息
+
+-(void)GetDeptDetail
+{
+    // 1.设置请求路径
+    NSURL *URL=[NSURL URLWithString:[URLApi requestURL]];//不需要传递参数
+    //    2.创建请求对象
+    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:URL];//默认为get请求
+    request.timeoutInterval=10.0;//设置请求超时为5秒
+    request.HTTPMethod=@"POST";//设置请求方法
+    NSString *authCode = [URLApi readAuthCodeString];
+    
+    //设置请求体
+    NSString *param=[NSString stringWithFormat:@"Params={\"authCode\":\"%@\",\"deptid\":\"%@\"}&Command=tuoke/TK_GetDeptDetail",[self encodeToPercentEscapeString:authCode],self.deptid];
+    NSLog(@"http://passport.admin.3weijia.com/MNMNH.axd?%@",param);
+    //把拼接后的字符串转换为data，设置请求体
+    request.HTTPBody=[param dataUsingEncoding:NSUTF8StringEncoding];
+    
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError)
+     {
+         //将得到的NSData数据转换成NSString
+         if (connectionError) {
+             NSLog(@"网络不给力");
+         }
+         else
+         {
+             NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+             
+             //将数据变成标准的json数据
+             NSLog(@"%@",[self newJsonStr:str]);
+             NSData *newData = [[self newJsonStr:str] dataUsingEncoding:NSUTF8StringEncoding];
+             NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:newData options:NSJSONReadingMutableContainers error:nil];
+             NSDictionary *JSON = [dic objectForKey:@"JSON"];
+             NSNumber *Status = [JSON objectForKey:@"Status"];
+             type = Status.intValue;
+             storeName = [JSON objectForKey:@"DeptName"];
+             address = [JSON objectForKey:@"Address"];
+             bookinDate = [JSON objectForKey:@"CreateDate"];
+             setUpDate = [JSON objectForKey:@"FirstLoginDate"];
+             
+             name = [[[JSON objectForKey:@"EmployeeList"]objectAtIndex:0]objectForKey:@"name"];
+             phone = [[[JSON objectForKey:@"EmployeeList"]objectAtIndex:0]objectForKey:@"mobile"];
+             lastLoginDate = [[[JSON objectForKey:@"EmployeeList"]objectAtIndex:0]objectForKey:@"lastLoginDate"];
+             
+        }
+         [self drawView];
+     }];
+    
+}
+
+- (NSString *)encodeToPercentEscapeString: (NSString *) input
+{
+    // Encode all the reserved characters, per RFC 3986
+    NSString *outputStr = (NSString *)
+    CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+                                                              (CFStringRef)input,
+                                                              NULL,
+                                                              (CFStringRef)@"!*'();:@&=+$,/?%#[]",
+                                                              kCFStringEncodingUTF8));
+    return outputStr;
+}
+
+- (NSString*)newJsonStr:(NSString*)string
+{
+    string = [string stringByReplacingOccurrencesOfString:@"\"JSON\":\"" withString:@"\"JSON\":"];
+    string = [string stringByReplacingOccurrencesOfString:@"}\"," withString:@"},"];
+    string = [string stringByReplacingOccurrencesOfString:@"]\"," withString:@"],"];
+    string = [string stringByReplacingOccurrencesOfString:@"\"JSON\":\"\\\"\\\"\"" withString:@"\"JSON\":\"\""];
+    string = [string stringByReplacingOccurrencesOfString:@"\\" withString:@""];
+    string = [string stringByReplacingOccurrencesOfString:@"\"JSON\":\"\"" withString:@"\"JSON\":\""];
+    string = [string stringByReplacingOccurrencesOfString:@"\"\",\"ErrorMessage\"" withString:@"\",\"ErrorMessage\""];
+    return string;
 }
 
 -(void)sendAccout

@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9F545CCB1BA7B32100A67D25 /* URLApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F545CCA1BA7B32100A67D25 /* URLApi.m */; };
+		9F545CD21BA7BE9900A67D25 /* down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F545CCD1BA7BE9900A67D25 /* down@2x.png */; };
+		9F545CD31BA7BE9900A67D25 /* YiRefreshFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F545CCF1BA7BE9900A67D25 /* YiRefreshFooter.m */; };
+		9F545CD41BA7BE9900A67D25 /* YiRefreshHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F545CD11BA7BE9900A67D25 /* YiRefreshHeader.m */; };
 		9F634C8E1BA1144200FDFD45 /* UserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F634C8D1BA1144200FDFD45 /* UserInfoViewController.m */; };
 		9F634C911BA11C0E00FDFD45 /* AlterNickNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F634C901BA11C0E00FDFD45 /* AlterNickNameViewController.m */; };
 		9F634C941BA1202100FDFD45 /* ProfitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F634C931BA1202100FDFD45 /* ProfitViewController.m */; };
@@ -67,6 +71,12 @@
 		9F7B9AB71BA01C01009935E0 /* StoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B9AB61BA01C01009935E0 /* StoreViewController.m */; };
 		9F7B9ABA1BA01C12009935E0 /* WealthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B9AB91BA01C12009935E0 /* WealthViewController.m */; };
 		9F7B9ABD1BA02AB2009935E0 /* StoreInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B9ABC1BA02AB2009935E0 /* StoreInfoViewController.m */; };
+		9FEAA4031BA69BFD000C6E9B /* StoreNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FEAA4021BA69BFD000C6E9B /* StoreNameViewController.m */; };
+		9FEAA4061BA69F44000C6E9B /* StoreAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FEAA4051BA69F44000C6E9B /* StoreAddressViewController.m */; };
+		9FEAA4091BA6A439000C6E9B /* StoreManNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FEAA4081BA6A439000C6E9B /* StoreManNameViewController.m */; };
+		9FEAA40C1BA6A565000C6E9B /* StoreManPhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FEAA40B1BA6A565000C6E9B /* StoreManPhoneViewController.m */; };
+		9FEAA40F1BA6A6EC000C6E9B /* VisitNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FEAA40E1BA6A6EC000C6E9B /* VisitNameViewController.m */; };
+		9FEAA4121BA6A6FA000C6E9B /* VisitPhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FEAA4111BA6A6FA000C6E9B /* VisitPhoneViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +90,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9F545CC91BA7B32100A67D25 /* URLApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLApi.h; sourceTree = "<group>"; };
+		9F545CCA1BA7B32100A67D25 /* URLApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLApi.m; sourceTree = "<group>"; };
+		9F545CCD1BA7BE9900A67D25 /* down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "down@2x.png"; sourceTree = "<group>"; };
+		9F545CCE1BA7BE9900A67D25 /* YiRefreshFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YiRefreshFooter.h; sourceTree = "<group>"; };
+		9F545CCF1BA7BE9900A67D25 /* YiRefreshFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YiRefreshFooter.m; sourceTree = "<group>"; };
+		9F545CD01BA7BE9900A67D25 /* YiRefreshHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YiRefreshHeader.h; sourceTree = "<group>"; };
+		9F545CD11BA7BE9900A67D25 /* YiRefreshHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YiRefreshHeader.m; sourceTree = "<group>"; };
 		9F634C8C1BA1144200FDFD45 /* UserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoViewController.h; sourceTree = "<group>"; };
 		9F634C8D1BA1144200FDFD45 /* UserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoViewController.m; sourceTree = "<group>"; };
 		9F634C8F1BA11C0E00FDFD45 /* AlterNickNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlterNickNameViewController.h; sourceTree = "<group>"; };
@@ -159,6 +176,18 @@
 		9F7B9AB91BA01C12009935E0 /* WealthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WealthViewController.m; sourceTree = "<group>"; };
 		9F7B9ABB1BA02AB2009935E0 /* StoreInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreInfoViewController.h; sourceTree = "<group>"; };
 		9F7B9ABC1BA02AB2009935E0 /* StoreInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreInfoViewController.m; sourceTree = "<group>"; };
+		9FEAA4011BA69BFD000C6E9B /* StoreNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreNameViewController.h; sourceTree = "<group>"; };
+		9FEAA4021BA69BFD000C6E9B /* StoreNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreNameViewController.m; sourceTree = "<group>"; };
+		9FEAA4041BA69F44000C6E9B /* StoreAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreAddressViewController.h; sourceTree = "<group>"; };
+		9FEAA4051BA69F44000C6E9B /* StoreAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreAddressViewController.m; sourceTree = "<group>"; };
+		9FEAA4071BA6A439000C6E9B /* StoreManNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreManNameViewController.h; sourceTree = "<group>"; };
+		9FEAA4081BA6A439000C6E9B /* StoreManNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreManNameViewController.m; sourceTree = "<group>"; };
+		9FEAA40A1BA6A565000C6E9B /* StoreManPhoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreManPhoneViewController.h; sourceTree = "<group>"; };
+		9FEAA40B1BA6A565000C6E9B /* StoreManPhoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreManPhoneViewController.m; sourceTree = "<group>"; };
+		9FEAA40D1BA6A6EC000C6E9B /* VisitNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisitNameViewController.h; sourceTree = "<group>"; };
+		9FEAA40E1BA6A6EC000C6E9B /* VisitNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VisitNameViewController.m; sourceTree = "<group>"; };
+		9FEAA4101BA6A6FA000C6E9B /* VisitPhoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisitPhoneViewController.h; sourceTree = "<group>"; };
+		9FEAA4111BA6A6FA000C6E9B /* VisitPhoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VisitPhoneViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +215,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9F545CCC1BA7BE9900A67D25 /* YiRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				9F545CCD1BA7BE9900A67D25 /* down@2x.png */,
+				9F545CCE1BA7BE9900A67D25 /* YiRefreshFooter.h */,
+				9F545CCF1BA7BE9900A67D25 /* YiRefreshFooter.m */,
+				9F545CD01BA7BE9900A67D25 /* YiRefreshHeader.h */,
+				9F545CD11BA7BE9900A67D25 /* YiRefreshHeader.m */,
+			);
+			path = YiRefresh;
+			sourceTree = SOURCE_ROOT;
+		};
 		9F634C9E1BA14EAE00FDFD45 /* 首页 */ = {
 			isa = PBXGroup;
 			children = (
@@ -214,6 +255,18 @@
 				9F7B9ABC1BA02AB2009935E0 /* StoreInfoViewController.m */,
 				9F634CA21BA150BC00FDFD45 /* BookInStoreViewController.h */,
 				9F634CA31BA150BC00FDFD45 /* BookInStoreViewController.mm */,
+				9FEAA4011BA69BFD000C6E9B /* StoreNameViewController.h */,
+				9FEAA4021BA69BFD000C6E9B /* StoreNameViewController.m */,
+				9FEAA4041BA69F44000C6E9B /* StoreAddressViewController.h */,
+				9FEAA4051BA69F44000C6E9B /* StoreAddressViewController.m */,
+				9FEAA4071BA6A439000C6E9B /* StoreManNameViewController.h */,
+				9FEAA4081BA6A439000C6E9B /* StoreManNameViewController.m */,
+				9FEAA40A1BA6A565000C6E9B /* StoreManPhoneViewController.h */,
+				9FEAA40B1BA6A565000C6E9B /* StoreManPhoneViewController.m */,
+				9FEAA40D1BA6A6EC000C6E9B /* VisitNameViewController.h */,
+				9FEAA40E1BA6A6EC000C6E9B /* VisitNameViewController.m */,
+				9FEAA4101BA6A6FA000C6E9B /* VisitPhoneViewController.h */,
+				9FEAA4111BA6A6FA000C6E9B /* VisitPhoneViewController.m */,
 			);
 			name = "门店";
 			sourceTree = "<group>";
@@ -312,6 +365,9 @@
 		9F7B9A881BA01546009935E0 /* tuoke */ = {
 			isa = PBXGroup;
 			children = (
+				9F545CCC1BA7BE9900A67D25 /* YiRefresh */,
+				9F545CC91BA7B32100A67D25 /* URLApi.h */,
+				9F545CCA1BA7B32100A67D25 /* URLApi.m */,
 				9F634CA11BA14F0D00FDFD45 /* 登录 */,
 				9F634C9E1BA14EAE00FDFD45 /* 首页 */,
 				9F634C9F1BA14EC700FDFD45 /* 门店 */,
@@ -462,6 +518,7 @@
 				9F634CC21BA18B6100FDFD45 /* Face@3x.png in Resources */,
 				9F66D6C41BA27A2F00E7884D /* into@2x.png in Resources */,
 				9F634CB51BA1889200FDFD45 /* cancle@2x.png in Resources */,
+				9F545CD21BA7BE9900A67D25 /* down@2x.png in Resources */,
 				9F634CCA1BA18E2E00FDFD45 /* background.png in Resources */,
 				9F634CD11BA18F7200FDFD45 /* first_normal@2x.png in Resources */,
 				9F66D6C11BA26A1B00E7884D /* storelogo@3x.png in Resources */,
@@ -492,22 +549,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FEAA4031BA69BFD000C6E9B /* StoreNameViewController.m in Sources */,
 				9F634C9D1BA1246F00FDFD45 /* MsgInfoViewController.m in Sources */,
+				9FEAA40C1BA6A565000C6E9B /* StoreManPhoneViewController.m in Sources */,
 				9F7B9AB11BA0162F009935E0 /* LoginViewController.m in Sources */,
 				9F634C911BA11C0E00FDFD45 /* AlterNickNameViewController.m in Sources */,
+				9FEAA4091BA6A439000C6E9B /* StoreManNameViewController.m in Sources */,
+				9F545CCB1BA7B32100A67D25 /* URLApi.m in Sources */,
 				9F7B9A921BA01546009935E0 /* ViewController.m in Sources */,
+				9FEAA4121BA6A6FA000C6E9B /* VisitPhoneViewController.m in Sources */,
 				9F7B9AB71BA01C01009935E0 /* StoreViewController.m in Sources */,
 				9F7B9A8F1BA01546009935E0 /* AppDelegate.m in Sources */,
 				9F634C941BA1202100FDFD45 /* ProfitViewController.m in Sources */,
 				9F634C971BA122D400FDFD45 /* RuleViewController.m in Sources */,
+				9FEAA40F1BA6A6EC000C6E9B /* VisitNameViewController.m in Sources */,
 				9F634C9A1BA1246100FDFD45 /* MsgViewController.m in Sources */,
 				9F7B9ABD1BA02AB2009935E0 /* StoreInfoViewController.m in Sources */,
 				9F634CA41BA150BC00FDFD45 /* BookInStoreViewController.mm in Sources */,
 				9F7B9ABA1BA01C12009935E0 /* WealthViewController.m in Sources */,
 				9F634CA71BA1532000FDFD45 /* LinkViewController.m in Sources */,
 				9F7B9AB41BA01BE0009935E0 /* MainViewController.m in Sources */,
+				9F545CD31BA7BE9900A67D25 /* YiRefreshFooter.m in Sources */,
 				9F7B9A8C1BA01546009935E0 /* main.m in Sources */,
 				9F634C8E1BA1144200FDFD45 /* UserInfoViewController.m in Sources */,
+				9FEAA4061BA69F44000C6E9B /* StoreAddressViewController.m in Sources */,
+				9F545CD41BA7BE9900A67D25 /* YiRefreshHeader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

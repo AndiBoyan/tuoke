@@ -8,6 +8,8 @@
 
 #import "StoreViewController.h"
 #import "StoreInfoViewController.h"
+#import "BookInStoreViewController.h"
+#import "URLApi.h"
 
 @interface StoreViewController ()<UITextFieldDelegate>
 {
@@ -17,6 +19,19 @@
     UIBarButtonItem *rightButton;
     UIBarButtonItem *backButton;
     UIBarButtonItem *donebutton;
+    
+    NSMutableArray *ShopImageAry;//店面照片
+    NSMutableArray *DeptNameAry;//店面名称
+    NSMutableArray *addressAry;//地址
+    NSMutableArray *openDateAry;
+    NSMutableArray *CreateDateAry;//登记日期
+    NSMutableArray *DeptIdAry;//店面ID
+    NSMutableArray *CategoryNameAry;
+    
+    UILabel *nullDataLab;
+    
+    int storeType;
+    int page;
 }
 @end
 
@@ -26,11 +41,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    storeTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-40)];
+    storeTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 65, self.view.frame.size.width, self.view.frame.size.height-115)];
     storeTableView.delegate = self;
     storeTableView.dataSource = self;
     storeTableView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:storeTableView];
+    
     segment = [[UISegmentedControl alloc]initWithItems:@[@"已登记",@"已开店",@"已充值"]];
     
     segment.frame = CGRectMake(0, 0, 200, 30);
@@ -44,6 +60,69 @@
     self.navigationItem.rightBarButtonItem = rightButton;
     backButton = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"cancle.png"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(cancelAction)];
     donebutton  = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"search.png"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(doneAction)];
+
+    ShopImageAry = [[NSMutableArray alloc]init];
+    DeptNameAry = [[NSMutableArray alloc]init];
+    addressAry = [[NSMutableArray alloc]init];
+    CreateDateAry = [[NSMutableArray alloc]init];
+    DeptIdAry = [[NSMutableArray alloc]init];
+    CategoryNameAry = [[NSMutableArray alloc]init];
+    openDateAry = [[NSMutableArray alloc]init];
+    
+    storeType = 0;
+    page = 1;
+    [self initYiRefreshHeader];
+    [self initYiRefreshFooter];
+   //[self getTKerDeptList:@"" shopState:0 page:1];
+}
+//下拉刷新
+-(void)initYiRefreshHeader
+{
+    // YiRefreshHeader  头部刷新按钮的使用
+    refreshHeader=[[YiRefreshHeader alloc] init];
+    refreshHeader.scrollView = storeTableView;
+    [refreshHeader header];
+    
+    refreshHeader.beginRefreshingBlock=^(){
+        // 后台执行：
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            
+            [self getTKerDeptList:@"" shopState:storeType page:page];
+        
+        
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // 主线程刷新视图
+                //[self analyseRequestData];
+                [storeTableView reloadData];
+                [refreshHeader endRefreshing];
+            });
+        });
+    };
+    // 是否在进入该界面的时候就开始进入刷新状态
+    [refreshHeader beginRefreshing];
+}
+
+//上拉刷新
+-(void)initYiRefreshFooter
+{
+    // YiRefreshFooter  底部刷新按钮的使用
+    refreshFooter=[[YiRefreshFooter alloc] init];
+    refreshFooter.scrollView=storeTableView;
+    [refreshFooter footer];
+    
+    refreshFooter.beginRefreshingBlock=^(){
+        // 后台执行：
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            
+         [self getTKerDeptList:@"" shopState:storeType page:page++];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // 主线程刷新视图
+                [storeTableView reloadData];
+                [refreshFooter endRefreshing];
+            });
+        });
+    };
 }
 
 -(void)search
@@ -69,28 +148,76 @@
     self.navigationItem.titleView = segment;
     self.navigationItem.leftBarButtonItem = leftButton;
     self.navigationItem.rightBarButtonItem = rightButton;
+    ShopImageAry = [[NSMutableArray alloc]init];
+    DeptNameAry = [[NSMutableArray alloc]init];
+    addressAry = [[NSMutableArray alloc]init];
+    CreateDateAry = [[NSMutableArray alloc]init];
+    DeptIdAry = [[NSMutableArray alloc]init];
+    CategoryNameAry = [[NSMutableArray alloc]init];
+    openDateAry = [[NSMutableArray alloc]init];
+    [self getTKerDeptList:@"" shopState:storeType page:1];
 }
+
 -(void)add
 {
-    
+    BookInStoreViewController *VC = [[BookInStoreViewController alloc]init];
+    [self presentViewController:VC animated:YES completion:nil];
 }
 -(void)doneAction
 {
-    
+    ShopImageAry = [[NSMutableArray alloc]init];
+    DeptNameAry = [[NSMutableArray alloc]init];
+    addressAry = [[NSMutableArray alloc]init];
+    CreateDateAry = [[NSMutableArray alloc]init];
+    DeptIdAry = [[NSMutableArray alloc]init];
+    CategoryNameAry = [[NSMutableArray alloc]init];
+    openDateAry = [[NSMutableArray alloc]init];
+    [searchField resignFirstResponder];
+    [self getTKerDeptList:searchField.text shopState:storeType page:1];
 }
 -(void)segmentChange:(UISegmentedControl*)sender
 {
     NSInteger index = sender.selectedSegmentIndex;
     if (index == 0) {
-        
+        storeType = 0;
+        page = 1;
+        ShopImageAry = [[NSMutableArray alloc]init];
+        DeptNameAry = [[NSMutableArray alloc]init];
+        addressAry = [[NSMutableArray alloc]init];
+        CreateDateAry = [[NSMutableArray alloc]init];
+        DeptIdAry = [[NSMutableArray alloc]init];
+        CategoryNameAry = [[NSMutableArray alloc]init];
+        openDateAry = [[NSMutableArray alloc]init];
+
+        [self getTKerDeptList:@"" shopState:0 page:1];
     }
     else if (index == 1)
     {
-        
+        storeType = 1;
+        page = 1;
+        ShopImageAry = [[NSMutableArray alloc]init];
+        DeptNameAry = [[NSMutableArray alloc]init];
+        addressAry = [[NSMutableArray alloc]init];
+        CreateDateAry = [[NSMutableArray alloc]init];
+        DeptIdAry = [[NSMutableArray alloc]init];
+        CategoryNameAry = [[NSMutableArray alloc]init];
+        openDateAry = [[NSMutableArray alloc]init];
+
+        [self getTKerDeptList:@"" shopState:1 page:1];
     }
     else
     {
-        
+        storeType = 2;
+        page = 1;
+        ShopImageAry = [[NSMutableArray alloc]init];
+        DeptNameAry = [[NSMutableArray alloc]init];
+        addressAry = [[NSMutableArray alloc]init];
+        CreateDateAry = [[NSMutableArray alloc]init];
+        DeptIdAry = [[NSMutableArray alloc]init];
+        CategoryNameAry = [[NSMutableArray alloc]init];
+        openDateAry = [[NSMutableArray alloc]init];
+
+        [self getTKerDeptList:@"" shopState:2 page:1];
     }
 }
 - (void)didReceiveMemoryWarning {
@@ -100,7 +227,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return DeptNameAry.count;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -129,41 +256,52 @@
         imageView.image = [UIImage imageNamed:@"storelogo.png"];
         [view addSubview:imageView];
         
-        UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(90, 15, 200, 20)];
-        lab.text = @"22222222";
-        lab.textAlignment = NSTextAlignmentLeft;
-        lab.font = [UIFont systemFontOfSize:16.0f];
-        [view addSubview:lab];
+        UILabel *storeName = [[UILabel alloc]initWithFrame:CGRectMake(90, 15, 200, 20)];
+        storeName.text = [DeptNameAry objectAtIndex:indexPath.row];
+        storeName.textAlignment = NSTextAlignmentLeft;
+        storeName.font = [UIFont systemFontOfSize:16.0f];
+        [view addSubview:storeName];
         
-        UILabel *lab1 = [[UILabel alloc]initWithFrame:CGRectMake(90, 40, 200, 15)];
-        lab1.text = @"1212121212121";
-        lab1.font = [UIFont systemFontOfSize:12.0f];
-        lab1.textAlignment = NSTextAlignmentLeft;
-        [view addSubview:lab1];
+        UILabel *addressLab = [[UILabel alloc]initWithFrame:CGRectMake(90, 40, 200, 15)];
+        addressLab.text = [addressAry objectAtIndex:indexPath.row];
+        addressLab.font = [UIFont systemFontOfSize:12.0f];
+        addressLab.textAlignment = NSTextAlignmentLeft;
+        [view addSubview:addressLab];
         
-        UILabel *lab2 = [[UILabel alloc]initWithFrame:CGRectMake(90, 60, 200, 15)];
-        lab2.text = @"22222222";
-        lab2.textAlignment = NSTextAlignmentLeft;
-        lab2.font = [UIFont systemFontOfSize:12.0f];
-        [view addSubview:lab2];
+        UILabel *openDateLab = [[UILabel alloc]initWithFrame:CGRectMake(90, 60, 200, 15)];
+        openDateLab.text = [openDateAry objectAtIndex:indexPath.row];
+        openDateLab.textAlignment = NSTextAlignmentLeft;
+        openDateLab.font = [UIFont systemFontOfSize:12.0f];
+        [view addSubview:openDateLab];
         
-        UILabel *lab3 = [[UILabel alloc]initWithFrame:CGRectMake(90, 80, 200, 15)];
-        lab3.text = @"1212121212121";
-        lab3.font = [UIFont systemFontOfSize:12.0f];
-        lab3.textAlignment = NSTextAlignmentLeft;
-        [view addSubview:lab3];
+        UILabel *createDateLab = [[UILabel alloc]initWithFrame:CGRectMake(90, 80, 200, 15)];
+        createDateLab.text = [CreateDateAry objectAtIndex:indexPath.row];
+        createDateLab.font = [UIFont systemFontOfSize:12.0f];
+        createDateLab.textAlignment = NSTextAlignmentLeft;
+        [view addSubview:createDateLab];
         
         
         UIView *line = [[UIView alloc]initWithFrame:CGRectMake(0, 100, self.view.frame.size.width-20, 1)];
         line.backgroundColor = [UIColor groupTableViewBackgroundColor];
         [view addSubview:line];
         
-        UILabel *lab4 = [[UILabel alloc]initWithFrame:CGRectMake(15, 120, 100, 20)];
-        lab4.text = @"已开店";
-        lab4.textColor = [UIColor redColor];
-        lab4.textAlignment = NSTextAlignmentLeft;
-        lab4.font = [UIFont systemFontOfSize:12.0f];
-        [view addSubview:lab4];
+        UILabel *storeStateLab = [[UILabel alloc]initWithFrame:CGRectMake(15, 120, 100, 20)];
+        if (storeType == 0) {
+            storeStateLab.text = @"已登记";
+        }
+        else if (storeType == 1)
+        {
+            storeStateLab.text = @"已开店";
+        }
+        else
+        {
+            storeStateLab.text = @"已充值";
+        }
+        
+        storeStateLab.textColor = [UIColor redColor];
+        storeStateLab.textAlignment = NSTextAlignmentLeft;
+        storeStateLab.font = [UIFont systemFontOfSize:12.0f];
+        [view addSubview:storeStateLab];
         
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.backgroundColor = [UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:1.0];
@@ -186,11 +324,97 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     StoreInfoViewController *VC = [[StoreInfoViewController alloc]init];
-    
+    VC.deptid = [DeptIdAry objectAtIndex:indexPath.row];
     [self presentViewController:VC animated:YES completion:nil];
 }
 -(void)sendAccout
 {
     
+}
+
+-(void)getTKerDeptList:(NSString *)word shopState:(int)state page:(int)pg
+{
+    [nullDataLab removeFromSuperview];
+    NSURL *URL=[NSURL URLWithString:[URLApi requestURL]];//不需要传递参数
+    //    2.创建请求对象
+    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:URL];//默认为get请求
+    request.timeoutInterval=10.0;//设置请求超时为5秒
+    request.HTTPMethod=@"POST";//设置请求方法
+    NSString *authCode = [URLApi readAuthCodeString];
+    //设置请求体
+    NSString *param=[NSString stringWithFormat:@"Params={\"authCode\":\"%@\",\"keyWord\":\"%@\",\"shopStatus\":\"%d\",\"orderBy\":\"\",\"pageIndex\":\"%d\",\"pageSize\":\"5\"}&Command=tuoke/GetTKerDeptList",[self encodeToPercentEscapeString:authCode],word,state,pg];
+    NSLog(@"http://passport.admin.3weijia.com/MNMNH.axd?command=tuoke?%@",param);
+    //把拼接后的字符串转换为data，设置请求体
+    request.HTTPBody=[param dataUsingEncoding:NSUTF8StringEncoding];
+    
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError)
+     {
+         //将得到的NSData数据转换成NSString
+         if (connectionError) {
+             NSLog(@"网络不给力");
+         }
+         else
+         {
+             NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+             
+             //将数据变成标准的json数据
+             NSLog(@"%@",[self newJsonStr:str]);
+             NSData *newData = [[self newJsonStr:str] dataUsingEncoding:NSUTF8StringEncoding];
+             NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:newData options:NSJSONReadingMutableContainers error:nil];
+             NSDictionary *JSON = [dic objectForKey:@"JSON"];
+             NSArray *ReturnList = [JSON objectForKey:@"ReturnList"];
+             for (id list in ReturnList) {
+                 for (int i=0 ;i < DeptIdAry.count;i++)
+                 {
+                     if ([[DeptIdAry objectAtIndex:i]isEqualToString:[list objectForKey:@"DeptId"]])
+                         return;
+                 }
+
+                 [DeptIdAry addObject:[list objectForKey:@"DeptId"]];
+                 [ShopImageAry addObject:[list objectForKey:@"ShopImage"]];
+                 [DeptNameAry addObject:[list objectForKey:@"DeptName"]];
+                 [addressAry addObject:[list objectForKey:@"Address"]];
+                 [openDateAry addObject:[list objectForKey:@"OpenDate"]];
+                 [CreateDateAry addObject:[list objectForKey:@"CreateDate"]];
+                 [CategoryNameAry addObject:[[[list objectForKey:@"ShopCates"]objectAtIndex:0]objectForKey:@"CategoryName"]];
+                 
+            }
+             if (DeptIdAry.count <= 0) {
+                 nullDataLab = [[UILabel alloc]initWithFrame:CGRectMake(0, (self.view.frame.size.height/2)-15, self.view.frame.size.width, 30)];
+                 nullDataLab.text = @"没有数据信息";
+                 nullDataLab.textAlignment = NSTextAlignmentCenter;
+                 [self.view addSubview:nullDataLab];
+             }
+             page++;
+             [storeTableView reloadData];
+         }
+        }
+     ];
+}
+
+- (NSString *)encodeToPercentEscapeString: (NSString *) input
+{
+    // Encode all the reserved characters, per RFC 3986
+    NSString *outputStr = (NSString *)
+    CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+                                                              (CFStringRef)input,
+                                                              NULL,
+                                                              (CFStringRef)@"!*'();:@&=+$,/?%#[]",
+                                                              kCFStringEncodingUTF8));
+    return outputStr;
+}
+
+- (NSString*)newJsonStr:(NSString*)string
+{
+    string = [string stringByReplacingOccurrencesOfString:@"\"JSON\":\"" withString:@"\"JSON\":"];
+    string = [string stringByReplacingOccurrencesOfString:@"}\"," withString:@"},"];
+    string = [string stringByReplacingOccurrencesOfString:@"]\"," withString:@"],"];
+    string = [string stringByReplacingOccurrencesOfString:@"\"JSON\":\"\\\"\\\"\"" withString:@"\"JSON\":\"\""];
+    string = [string stringByReplacingOccurrencesOfString:@"\\" withString:@""];
+    string = [string stringByReplacingOccurrencesOfString:@"\"JSON\":\"\"" withString:@"\"JSON\":\""];
+    string = [string stringByReplacingOccurrencesOfString:@"\"\",\"ErrorMessage\"" withString:@"\",\"ErrorMessage\""];
+    return string;
 }
 @end

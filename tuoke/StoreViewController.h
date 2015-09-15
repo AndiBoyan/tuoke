@@ -7,10 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "YiRefreshHeader.h"
+#import "YiRefreshFooter.h"
 
 @interface StoreViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
 {
     UITableView *storeTableView;
+    YiRefreshHeader *refreshHeader;//下拉刷新
+    YiRefreshFooter *refreshFooter;//上拉加载
 }
 
 @end

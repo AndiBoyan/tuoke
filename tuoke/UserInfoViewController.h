@@ -8,8 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UserInfoViewController : UIViewController
+@interface UserInfoViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
-    
+    UITableView *table;
+        
+    NSArray *userInfoArray1;
+    NSArray *userInfoArray2;
+        
+    UIImage *faceImg;
+    UIImageView *faveImgView;
 }
+
+@property NSString *name;
+@property NSString *phone;
+@property NSString *nickName;
+
 @end

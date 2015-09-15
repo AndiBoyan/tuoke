@@ -33,6 +33,7 @@
     
 
 }
+
 -(void)rule
 {
     RuleViewController *vc = [[RuleViewController alloc]init];

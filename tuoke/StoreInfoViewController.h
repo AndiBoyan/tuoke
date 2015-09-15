@@ -9,5 +9,17 @@
 #import <UIKit/UIKit.h>
 
 @interface StoreInfoViewController : UIViewController
+{
+    NSString *storeName;
+    NSString *address;
+    NSString *bookinDate;
+    NSString *setUpDate;
+    
+    NSString *name;
+    NSString *phone;
+    NSString *lastLoginDate;
+    int type;
+}
+@property NSString *deptid;
 
 @end

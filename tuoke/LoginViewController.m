@@ -8,6 +8,7 @@
 
 #import "LoginViewController.h"
 #import "ViewController.h"
+#import "URLApi.h"
 
 @interface LoginViewController ()
 
@@ -28,6 +29,8 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark 导航条
+
 -(void)initNav
 {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
@@ -41,6 +44,8 @@
     [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor blackColor],NSFontAttributeName:[UIFont systemFontOfSize:19.0]}];
     [self.view addSubview:navigationBar];
 }
+
+#pragma mark 初始化界面
 
 -(void)initView
 {
@@ -102,19 +107,22 @@
     [findPwd addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:findPwd];
 }
+
+#pragma mark 用户登录
+
 -(void)login
 {
-    // 1.设置请求路径
-    NSURL *URL=[NSURL URLWithString:@"http://passport.admin.3weijia.com/MNMNH.axd"];//不需要传递参数
-    //    2.创建请求对象
-    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:URL];//默认为get请求
-    request.timeoutInterval=10.0;//设置请求超时为5秒
-    request.HTTPMethod=@"POST";//设置请求方法
+    NSURL *URL=[NSURL URLWithString:[URLApi requestURL]];
+    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:URL];
+    request.timeoutInterval=10.0;
+    request.HTTPMethod=@"POST";
+    
     NSString *authCode = @"OnxA/jxTBSM91jGmGyREdSjObIc4Z8d2hA/95UiyOSLBUSTAYHKq75hcxsHuN5VsKCJQqB6QpbSH77xgY9lWTBs0nNajsDLpfBAVdB0bqO+RrbEhCgms7bsfclnY+XFn";
-    //设置请求体
+   
     NSString *param=[NSString stringWithFormat:@"Params={\"authCode\":\"%@\",\"account\":\"qeknio\",\"passWord\":\"123123\"}&Command=tuoke/TK_Login",[self encodeToPercentEscapeString:authCode]];
     NSLog(@"http://passport.admin.3weijia.com/MNMNH.axd?command=tuoke?%@",param);
-    //把拼接后的字符串转换为data，设置请求体
+    
+    
     request.HTTPBody=[param dataUsingEncoding:NSUTF8StringEncoding];
     
     [NSURLConnection sendAsynchronousRequest:request
@@ -127,19 +135,18 @@
          }
          else
          {
-             /*
-              {"Status":200,"JSON":{"loginResult":true,"UserInfo":{"RealName":"qeknio","DeptName":"帅气的店","OrganName":"三维家广州市运营商","AuthCode":"67yCBPegmISrt6CxthrG8BtxqhUgRGrTwpymDO7Ngv1mdgNUh5Zgco3ztQfZFIW66gVTFcQrApUhmdEqwqg+y3iy3ZiJq+Mi0tFuaMF3iXc/wF+x72P7nFG66/70WkzWu8cplrG44TM=","UserId":"1000032561","UserName":"qeknio","OrganId":"C00000098","DeptId":"00016413"}},"ErrorMessage":null,"InfoMessage":null}
-              */
              NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-             
              //将数据变成标准的json数据
-             NSLog(@"%@",[self newJsonStr:str]);
              NSData *newData = [[self newJsonStr:str] dataUsingEncoding:NSUTF8StringEncoding];
              NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:newData options:NSJSONReadingMutableContainers error:nil];
              NSNumber *loginResult = [[dic objectForKey:@"JSON"]objectForKey:@"loginResult"];
              if (loginResult.intValue == 1) {
                   ViewController *vc = [[ViewController alloc]init];
                   [self presentViewController:vc animated:YES completion:nil];
+                 NSString *AuthCode = [[[dic objectForKey:@"JSON"]objectForKey:@"UserInfo"]objectForKey:@"AuthCode"];
+                 
+                  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+                  [userDefaults setObject:AuthCode forKey:@"AuthCode"];
              }
          }
      }];
@@ -156,6 +163,7 @@
                                                               kCFStringEncodingUTF8));
     return outputStr;
 }
+
 - (NSString*)newJsonStr:(NSString*)string
 {
     string = [string stringByReplacingOccurrencesOfString:@"\"JSON\":\"" withString:@"\"JSON\":"];
