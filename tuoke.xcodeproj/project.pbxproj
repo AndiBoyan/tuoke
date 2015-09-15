@@ -11,6 +11,8 @@
 		9F545CD21BA7BE9900A67D25 /* down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F545CCD1BA7BE9900A67D25 /* down@2x.png */; };
 		9F545CD31BA7BE9900A67D25 /* YiRefreshFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F545CCF1BA7BE9900A67D25 /* YiRefreshFooter.m */; };
 		9F545CD41BA7BE9900A67D25 /* YiRefreshHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F545CD11BA7BE9900A67D25 /* YiRefreshHeader.m */; };
+		9F545D0C1BA8021400A67D25 /* message@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F545D0A1BA8021400A67D25 /* message@2x.png */; };
+		9F545D0D1BA8021400A67D25 /* message@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F545D0B1BA8021400A67D25 /* message@3x.png */; };
 		9F634C8E1BA1144200FDFD45 /* UserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F634C8D1BA1144200FDFD45 /* UserInfoViewController.m */; };
 		9F634C911BA11C0E00FDFD45 /* AlterNickNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F634C901BA11C0E00FDFD45 /* AlterNickNameViewController.m */; };
 		9F634C941BA1202100FDFD45 /* ProfitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F634C931BA1202100FDFD45 /* ProfitViewController.m */; };
@@ -97,6 +99,8 @@
 		9F545CCF1BA7BE9900A67D25 /* YiRefreshFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YiRefreshFooter.m; sourceTree = "<group>"; };
 		9F545CD01BA7BE9900A67D25 /* YiRefreshHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YiRefreshHeader.h; sourceTree = "<group>"; };
 		9F545CD11BA7BE9900A67D25 /* YiRefreshHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YiRefreshHeader.m; sourceTree = "<group>"; };
+		9F545D0A1BA8021400A67D25 /* message@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "message@2x.png"; sourceTree = "<group>"; };
+		9F545D0B1BA8021400A67D25 /* message@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "message@3x.png"; sourceTree = "<group>"; };
 		9F634C8C1BA1144200FDFD45 /* UserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoViewController.h; sourceTree = "<group>"; };
 		9F634C8D1BA1144200FDFD45 /* UserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoViewController.m; sourceTree = "<group>"; };
 		9F634C8F1BA11C0E00FDFD45 /* AlterNickNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlterNickNameViewController.h; sourceTree = "<group>"; };
@@ -296,6 +300,8 @@
 		9F634CA81BA162BC00FDFD45 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				9F545D0A1BA8021400A67D25 /* message@2x.png */,
+				9F545D0B1BA8021400A67D25 /* message@3x.png */,
 				9F66D6C21BA27A2F00E7884D /* into@2x.png */,
 				9F66D6C31BA27A2F00E7884D /* into@3x.png */,
 				9F66D6BE1BA26A1B00E7884D /* storelogo@2x.png */,
@@ -515,8 +521,10 @@
 				9F634CE11BA1904A00FDFD45 /* third_normal@3x.png in Resources */,
 				9F634CD51BA18F7200FDFD45 /* third_normal@2x.png in Resources */,
 				9F634CDE1BA1904A00FDFD45 /* first_selected@3x.png in Resources */,
+				9F545D0D1BA8021400A67D25 /* message@3x.png in Resources */,
 				9F634CC21BA18B6100FDFD45 /* Face@3x.png in Resources */,
 				9F66D6C41BA27A2F00E7884D /* into@2x.png in Resources */,
+				9F545D0C1BA8021400A67D25 /* message@2x.png in Resources */,
 				9F634CB51BA1889200FDFD45 /* cancle@2x.png in Resources */,
 				9F545CD21BA7BE9900A67D25 /* down@2x.png in Resources */,
 				9F634CCA1BA18E2E00FDFD45 /* background.png in Resources */,

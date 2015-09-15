@@ -10,4 +10,8 @@
 
 @interface MsgInfoViewController : UIViewController
 
+@property NSString *msgTitle;
+@property NSString *msg;
+@property NSString *date;
+
 @end

@@ -14,7 +14,7 @@
 {
     return @"http://passport.admin.3weijia.com/MNMNH.axd";
 }
-///http://passport.admin.3weijia.com/UpFile/C00000098/Platform/ShopInfo/201509//f6be8dcf-f963-4b63-bbf0-7269b3ca3b48.png
+
 +(NSString *)readAuthCodeString
 {
     NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];

@@ -10,6 +10,8 @@
 #import "UserInfoViewController.h"
 #import "BookInStoreViewController.h"
 #import "LinkViewController.h"
+#import "MsgViewController.h"
+
 #import "URLApi.h"
 
 @interface MainViewController ()
@@ -21,7 +23,8 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    
+    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"message.png"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(msg)];
+    self.navigationItem.rightBarButtonItem = rightButton;
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     [self initData];
@@ -29,6 +32,11 @@
     [self GetEmployeeInfo];
 }
 
+-(void)msg
+{
+    MsgViewController *VC = [[MsgViewController alloc]init];
+    [self presentViewController:VC animated:YES completion:nil];
+}
 #pragma mark 初始化数据
 
 -(void)initData
@@ -64,7 +72,7 @@
     UITapGestureRecognizer *singleTap =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(userInfoList:)];
     [face addGestureRecognizer:singleTap];
     
-    userNameLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 105, self.view.frame.size.width, 20)];
+    userNameLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 115, self.view.frame.size.width, 20)];
     userNameLab.textAlignment = NSTextAlignmentCenter;
     userNameLab.textColor = [UIColor whiteColor];
     userNameLab.font = [UIFont systemFontOfSize:14.0f];

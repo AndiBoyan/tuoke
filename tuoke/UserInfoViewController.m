@@ -9,6 +9,7 @@
 #import "UserInfoViewController.h"
 #import "LoginViewController.h"
 #import "AlterNickNameViewController.h"
+#import "URLApi.h"
 
 
 @interface UserInfoViewController ()
@@ -228,6 +229,7 @@
     faceImg = img;
     faveImgView.image = img;
     [picker dismissViewControllerAnimated:YES completion:nil];
+    [self updateImage:img];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
     NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"userface.png"]];   // 保存文件的名称
     [UIImagePNGRepresentation(img)writeToFile: filePath    atomically:YES];
@@ -245,6 +247,67 @@
     return img;
 }
 
+
+//门店图片:ShopInfo;店长名片正面:SMCardFront;名片背面:SMCardBack;用户头像:UserSetting
+-(void)updateImage:(UIImage*)img
+{
+    // 1.设置请求路径//10.1.127.27 passport.admin.3weijia.com
+    NSURL *URL=[NSURL URLWithString:[URLApi requestURL]];//不需要传递参数
+    //    2.创建请求对象
+    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:URL];//默认为get请求
+    request.timeoutInterval=10.0;//设置请求超时为10秒
+    request.HTTPMethod=@"POST";//设置请求方法
+    NSString *authCode = [URLApi readAuthCodeString];
+    //设置请求体
+    NSString *param=[NSString stringWithFormat:@"Params={\"authCode\":\"%@\",\"FileGroup\":\"UserSetting\",\"SubjectId\":\"\",\"FileString\":\"%@\",\"FileName\":\"UserSetting.png\"}&Command=tkcommon/PostFileByString",[self encodeToPercentEscapeString:authCode],[self encodeToPercentEscapeString:[self image2DataURL:img]]];
+    NSLog(@"http://passport.admin.3weijia.com/MNMNH.axd?%@",param);
+    //把拼接后的字符串转换为data，设置请求体
+    request.HTTPBody=[param dataUsingEncoding:NSUTF8StringEncoding];
+    
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError)
+     {
+         //将得到的NSData数据转换成NSString
+         if (connectionError) {
+             NSLog(@"网络不给力");
+         }
+         else
+         {
+             NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+             NSLog(@"%@",[self newJsonStr:str]);
+             NSData *newData = [[self newJsonStr:str] dataUsingEncoding:NSUTF8StringEncoding];
+             NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:newData options:NSJSONReadingMutableContainers error:nil];
+             NSString *FileId = [[dic objectForKey:@"JSON"]objectForKey:@"FileId"];
+             NSString *FileFullPath = [[dic objectForKey:@"JSON"]objectForKey:@"FileFullPath"];
+             NSLog(@"FileId = %@,FileFullPath = %@",FileId,FileFullPath);
+         }
+     }];
+}
+
+- (NSString *)encodeToPercentEscapeString: (NSString *) input
+{
+    // Encode all the reserved characters, per RFC 3986
+    NSString *outputStr = (NSString *)
+    CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+                                                              (CFStringRef)input,
+                                                              NULL,
+                                                              (CFStringRef)@"!*'();:@&=+$,/?%#[]",
+                                                              kCFStringEncodingUTF8));
+    return outputStr;
+}
+
+- (NSString*)newJsonStr:(NSString*)string
+{
+    string = [string stringByReplacingOccurrencesOfString:@"\"JSON\":\"" withString:@"\"JSON\":"];
+    string = [string stringByReplacingOccurrencesOfString:@"}\"," withString:@"},"];
+    string = [string stringByReplacingOccurrencesOfString:@"]\"," withString:@"],"];
+    string = [string stringByReplacingOccurrencesOfString:@"\"JSON\":\"\\\"\\\"\"" withString:@"\"JSON\":\"\""];
+    string = [string stringByReplacingOccurrencesOfString:@"\\" withString:@""];
+    string = [string stringByReplacingOccurrencesOfString:@"\"JSON\":\"\"" withString:@"\"JSON\":\""];
+    string = [string stringByReplacingOccurrencesOfString:@"\"\",\"ErrorMessage\"" withString:@"\",\"ErrorMessage\""];
+    return string;
+}
 #pragma maek 图片转base64编码
 
 //图片转base64编码

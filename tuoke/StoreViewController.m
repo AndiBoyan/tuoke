@@ -30,7 +30,7 @@
     
     UILabel *nullDataLab;
     
-    int storeType;
+    NSString *storeType;
     int page;
 }
 @end
@@ -45,6 +45,7 @@
     storeTableView.delegate = self;
     storeTableView.dataSource = self;
     storeTableView.backgroundColor = [UIColor clearColor];
+    storeTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:storeTableView];
     
     segment = [[UISegmentedControl alloc]initWithItems:@[@"已登记",@"已开店",@"已充值"]];
@@ -69,7 +70,7 @@
     CategoryNameAry = [[NSMutableArray alloc]init];
     openDateAry = [[NSMutableArray alloc]init];
     
-    storeType = 0;
+    storeType = @"-1,0,1";
     page = 1;
     [self initYiRefreshHeader];
     [self initYiRefreshFooter];
@@ -179,7 +180,7 @@
 {
     NSInteger index = sender.selectedSegmentIndex;
     if (index == 0) {
-        storeType = 0;
+        storeType = @"-1,0,1";
         page = 1;
         ShopImageAry = [[NSMutableArray alloc]init];
         DeptNameAry = [[NSMutableArray alloc]init];
@@ -189,11 +190,11 @@
         CategoryNameAry = [[NSMutableArray alloc]init];
         openDateAry = [[NSMutableArray alloc]init];
 
-        [self getTKerDeptList:@"" shopState:0 page:1];
+        [self getTKerDeptList:@"" shopState:@"-1,0,1" page:1];
     }
     else if (index == 1)
     {
-        storeType = 1;
+        storeType = @"2";
         page = 1;
         ShopImageAry = [[NSMutableArray alloc]init];
         DeptNameAry = [[NSMutableArray alloc]init];
@@ -203,11 +204,11 @@
         CategoryNameAry = [[NSMutableArray alloc]init];
         openDateAry = [[NSMutableArray alloc]init];
 
-        [self getTKerDeptList:@"" shopState:1 page:1];
+        [self getTKerDeptList:@"" shopState:@"2" page:1];
     }
     else
     {
-        storeType = 2;
+        storeType = @"3";
         page = 1;
         ShopImageAry = [[NSMutableArray alloc]init];
         DeptNameAry = [[NSMutableArray alloc]init];
@@ -217,7 +218,7 @@
         CategoryNameAry = [[NSMutableArray alloc]init];
         openDateAry = [[NSMutableArray alloc]init];
 
-        [self getTKerDeptList:@"" shopState:2 page:1];
+        [self getTKerDeptList:@"" shopState:@"3" page:1];
     }
 }
 - (void)didReceiveMemoryWarning {
@@ -239,10 +240,10 @@
 
     if (cell == nil) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
-       // cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.backgroundColor = [UIColor clearColor];
-        cell.contentView.backgroundColor = [UIColor clearColor];
+        cell.backgroundColor = [UIColor whiteColor];
+        cell.contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
         [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+
         UIView *view = [[UIView alloc]initWithFrame:CGRectMake(10, 5, self.view.frame.size.width-20, 150)];
         view.backgroundColor = [UIColor whiteColor];
         UIBezierPath *maskPath1 = [UIBezierPath bezierPathWithRoundedRect:view.bounds  byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(10, 10)];
@@ -286,16 +287,16 @@
         [view addSubview:line];
         
         UILabel *storeStateLab = [[UILabel alloc]initWithFrame:CGRectMake(15, 120, 100, 20)];
-        if (storeType == 0) {
-            storeStateLab.text = @"已登记";
+        if ([storeType isEqualToString:@"3"]) {
+            storeStateLab.text = @"已充值";
         }
-        else if (storeType == 1)
+        else if ([storeType isEqualToString:@"2"])
         {
             storeStateLab.text = @"已开店";
         }
         else
         {
-            storeStateLab.text = @"已充值";
+            storeStateLab.text = @"已登记";
         }
         
         storeStateLab.textColor = [UIColor redColor];
@@ -304,6 +305,7 @@
         [view addSubview:storeStateLab];
         
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.titleLabel.font = [UIFont systemFontOfSize:14.0f];
         button.backgroundColor = [UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:1.0];
         button.frame = CGRectMake(self.view.frame.size.width-150, 110, 115, 30);
         [button setTitle:@"再次发送账号" forState:UIControlStateNormal];
@@ -332,7 +334,7 @@
     
 }
 
--(void)getTKerDeptList:(NSString *)word shopState:(int)state page:(int)pg
+-(void)getTKerDeptList:(NSString *)word shopState:(NSString*)state page:(int)pg
 {
     [nullDataLab removeFromSuperview];
     NSURL *URL=[NSURL URLWithString:[URLApi requestURL]];//不需要传递参数
@@ -342,7 +344,7 @@
     request.HTTPMethod=@"POST";//设置请求方法
     NSString *authCode = [URLApi readAuthCodeString];
     //设置请求体
-    NSString *param=[NSString stringWithFormat:@"Params={\"authCode\":\"%@\",\"keyWord\":\"%@\",\"shopStatus\":\"%d\",\"orderBy\":\"\",\"pageIndex\":\"%d\",\"pageSize\":\"5\"}&Command=tuoke/GetTKerDeptList",[self encodeToPercentEscapeString:authCode],word,state,pg];
+    NSString *param=[NSString stringWithFormat:@"Params={\"authCode\":\"%@\",\"keyWord\":\"%@\",\"shopStatus\":\"%@\",\"orderBy\":\"\",\"pageIndex\":\"%d\",\"pageSize\":\"5\"}&Command=tuoke/GetTKerDeptList",[self encodeToPercentEscapeString:authCode],word,state,pg];
     NSLog(@"http://passport.admin.3weijia.com/MNMNH.axd?command=tuoke?%@",param);
     //把拼接后的字符串转换为data，设置请求体
     request.HTTPBody=[param dataUsingEncoding:NSUTF8StringEncoding];
