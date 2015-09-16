@@ -14,6 +14,7 @@
 @interface AppDelegate ()<BMKGeneralDelegate>
 {
     BMKMapManager* _mapManager;
+    //ssss
 }
 @end
 
