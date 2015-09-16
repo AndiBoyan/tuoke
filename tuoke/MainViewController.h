@@ -11,6 +11,7 @@
 @interface MainViewController : UIViewController
 {
     NSArray *userStateArray;//用户基本信息数组
+    NSMutableArray *userCountAry;
     NSArray *tuokeFuncArray;//拓客功能以及功能图标
     NSArray *tuokeFuncImageArray;
     
@@ -21,5 +22,9 @@
     NSString *name;
     NSString *phone;
     NSString *nick;
+    
+    UILabel *stateLab1;
+    UILabel *stateLab2;
+    UILabel *stateLab3;
 }
 @end

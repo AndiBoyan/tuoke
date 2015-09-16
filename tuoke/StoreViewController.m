@@ -10,6 +10,7 @@
 #import "StoreInfoViewController.h"
 #import "BookInStoreViewController.h"
 #import "URLApi.h"
+#import "ColorButton.h"
 
 @interface StoreViewController ()<UITextFieldDelegate>
 {
@@ -20,6 +21,12 @@
     UIBarButtonItem *backButton;
     UIBarButtonItem *donebutton;
     
+    UIButton *haveDZButton;
+    UIButton *notHaveDZButton;
+    
+    UIView *haveDZButtonView;
+    UIView *notHaveDZButtonView;
+    
     NSMutableArray *ShopImageAry;//店面照片
     NSMutableArray *DeptNameAry;//店面名称
     NSMutableArray *addressAry;//地址
@@ -29,8 +36,8 @@
     NSMutableArray *CategoryNameAry;
     
     UILabel *nullDataLab;
-    
     NSString *storeType;
+    
     int page;
 }
 @end
@@ -41,7 +48,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    storeTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 65, self.view.frame.size.width, self.view.frame.size.height-115)];
+    storeTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 105, self.view.frame.size.width, self.view.frame.size.height-155)];
     storeTableView.delegate = self;
     storeTableView.dataSource = self;
     storeTableView.backgroundColor = [UIColor clearColor];
@@ -61,7 +68,44 @@
     self.navigationItem.rightBarButtonItem = rightButton;
     backButton = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"cancle.png"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(cancelAction)];
     donebutton  = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"search.png"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(doneAction)];
-
+    
+    UIView *HaveDzView = [[UIView alloc]initWithFrame:CGRectMake(0, 65, self.view.frame.size.width, 40)];
+    HaveDzView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:HaveDzView];
+    
+   
+    
+    haveDZButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    haveDZButton.showsTouchWhenHighlighted = YES;  //指定按钮被按下时发光
+    haveDZButton.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    [haveDZButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];//此时选中
+    haveDZButton.frame = CGRectMake(0, 0, self.view.frame.size.width/2, 40);
+    [haveDZButton setTitle:@"有店主" forState:UIControlStateNormal];
+    haveDZButton.titleLabel.font = [UIFont systemFontOfSize:14.0f];
+    [haveDZButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [haveDZButton setTintColor:[UIColor blackColor]];
+    [haveDZButton addTarget:self action:@selector(haveDZ) forControlEvents:UIControlEventTouchUpInside];
+    [HaveDzView addSubview:haveDZButton];
+    
+    haveDZButtonView = [[UIView alloc]initWithFrame:CGRectMake(0, 38, self.view.frame.size.width/2, 2)];
+    haveDZButtonView.backgroundColor = [UIColor redColor];
+    [HaveDzView addSubview:haveDZButtonView];
+    
+    notHaveDZButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    notHaveDZButton.showsTouchWhenHighlighted = YES;  //指定按钮被按下时发光
+    notHaveDZButton.backgroundColor = [UIColor whiteColor];
+    notHaveDZButton.frame = CGRectMake(self.view.frame.size.width/2, 0, self.view.frame.size.width/2, 40);
+    [notHaveDZButton setTitle:@"无店主" forState:UIControlStateNormal];
+    notHaveDZButton.titleLabel.font = [UIFont systemFontOfSize:14.0f];
+    [notHaveDZButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [notHaveDZButton addTarget:self action:@selector(notHaveDZ) forControlEvents:UIControlEventTouchUpInside];
+    [HaveDzView addSubview:notHaveDZButton];
+    
+    notHaveDZButtonView = [[UIView alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2, 38, self.view.frame.size.width/2, 2)];
+    notHaveDZButtonView.backgroundColor = [UIColor redColor];
+    notHaveDZButtonView.hidden = YES;
+    [HaveDzView addSubview:notHaveDZButtonView];
+    
     ShopImageAry = [[NSMutableArray alloc]init];
     DeptNameAry = [[NSMutableArray alloc]init];
     addressAry = [[NSMutableArray alloc]init];
@@ -76,6 +120,39 @@
     [self initYiRefreshFooter];
    //[self getTKerDeptList:@"" shopState:0 page:1];
 }
+
+-(void)haveDZ
+{
+    haveDZButtonView.hidden = NO;
+    notHaveDZButtonView.hidden = YES;
+    haveDZButton.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    notHaveDZButton.backgroundColor = [UIColor whiteColor];
+     page = 1;
+    ShopImageAry = [[NSMutableArray alloc]init];
+    DeptNameAry = [[NSMutableArray alloc]init];
+    addressAry = [[NSMutableArray alloc]init];
+    CreateDateAry = [[NSMutableArray alloc]init];
+    DeptIdAry = [[NSMutableArray alloc]init];
+    CategoryNameAry = [[NSMutableArray alloc]init];
+    openDateAry = [[NSMutableArray alloc]init];
+    [self getTKerDeptList:@"" shopState:storeType isHaveDz:@"true" page:page];
+}
+-(void)notHaveDZ
+{
+    haveDZButtonView.hidden = YES;
+    notHaveDZButtonView.hidden = NO;
+    haveDZButton.backgroundColor = [UIColor whiteColor];
+    notHaveDZButton.backgroundColor = [UIColor groupTableViewBackgroundColor];
+     page = 1;
+    ShopImageAry = [[NSMutableArray alloc]init];
+    DeptNameAry = [[NSMutableArray alloc]init];
+    addressAry = [[NSMutableArray alloc]init];
+    CreateDateAry = [[NSMutableArray alloc]init];
+    DeptIdAry = [[NSMutableArray alloc]init];
+    CategoryNameAry = [[NSMutableArray alloc]init];
+    openDateAry = [[NSMutableArray alloc]init];
+    [self getTKerDeptList:@"" shopState:storeType isHaveDz:@"false" page:page];
+}
 //下拉刷新
 -(void)initYiRefreshHeader
 {
@@ -88,7 +165,7 @@
         // 后台执行：
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             
-            [self getTKerDeptList:@"" shopState:storeType page:page];
+            [self getTKerDeptList:@"" shopState:storeType isHaveDz:@"" page:page];
         
         
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -115,7 +192,7 @@
         // 后台执行：
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             
-         [self getTKerDeptList:@"" shopState:storeType page:page++];
+            [self getTKerDeptList:@"" shopState:storeType isHaveDz:@"" page:1];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 // 主线程刷新视图
@@ -156,7 +233,7 @@
     DeptIdAry = [[NSMutableArray alloc]init];
     CategoryNameAry = [[NSMutableArray alloc]init];
     openDateAry = [[NSMutableArray alloc]init];
-    [self getTKerDeptList:@"" shopState:storeType page:1];
+    [self getTKerDeptList:@"" shopState:storeType isHaveDz:@"" page:1];
 }
 
 -(void)add
@@ -174,12 +251,16 @@
     CategoryNameAry = [[NSMutableArray alloc]init];
     openDateAry = [[NSMutableArray alloc]init];
     [searchField resignFirstResponder];
-    [self getTKerDeptList:searchField.text shopState:storeType page:1];
+    [self getTKerDeptList:searchField.text shopState:storeType isHaveDz:@"" page:1];
 }
 -(void)segmentChange:(UISegmentedControl*)sender
 {
     NSInteger index = sender.selectedSegmentIndex;
     if (index == 0) {
+        haveDZButtonView.hidden = NO;
+        notHaveDZButtonView.hidden = YES;
+        haveDZButton.backgroundColor = [UIColor groupTableViewBackgroundColor];
+        notHaveDZButton.backgroundColor = [UIColor whiteColor];
         storeType = @"-1,0,1";
         page = 1;
         ShopImageAry = [[NSMutableArray alloc]init];
@@ -190,10 +271,15 @@
         CategoryNameAry = [[NSMutableArray alloc]init];
         openDateAry = [[NSMutableArray alloc]init];
         [storeTableView reloadData];
-        [self getTKerDeptList:@"" shopState:@"-1,0,1" page:1];
+        [self getTKerDeptList:@"" shopState:@"-1,0,1" isHaveDz:@"" page:1];
     }
     else if (index == 1)
     {
+        
+        haveDZButtonView.hidden = NO;
+        notHaveDZButtonView.hidden = YES;
+        haveDZButton.backgroundColor = [UIColor groupTableViewBackgroundColor];
+        notHaveDZButton.backgroundColor = [UIColor whiteColor];
         storeType = @"2";
         page = 1;
         ShopImageAry = [[NSMutableArray alloc]init];
@@ -204,10 +290,14 @@
         CategoryNameAry = [[NSMutableArray alloc]init];
         openDateAry = [[NSMutableArray alloc]init];
 
-        [self getTKerDeptList:@"" shopState:@"2" page:1];
+        [self getTKerDeptList:@"" shopState:@"2" isHaveDz:@"" page:1];
     }
     else
     {
+        haveDZButtonView.hidden = NO;
+        notHaveDZButtonView.hidden = YES;
+        haveDZButton.backgroundColor = [UIColor groupTableViewBackgroundColor];
+        notHaveDZButton.backgroundColor = [UIColor whiteColor];
         storeType = @"3";
         page = 1;
         ShopImageAry = [[NSMutableArray alloc]init];
@@ -218,7 +308,7 @@
         CategoryNameAry = [[NSMutableArray alloc]init];
         openDateAry = [[NSMutableArray alloc]init];
 
-        [self getTKerDeptList:@"" shopState:@"3" page:1];
+        [self getTKerDeptList:@"" shopState:@"3" isHaveDz:@"" page:1];
     }
 }
 - (void)didReceiveMemoryWarning {
@@ -334,7 +424,7 @@
     
 }
 
--(void)getTKerDeptList:(NSString *)word shopState:(NSString*)state page:(int)pg
+-(void)getTKerDeptList:(NSString *)word shopState:(NSString*)state isHaveDz:(NSString*)isHaveDZ page:(int)pg
 {
     [nullDataLab removeFromSuperview];
     NSURL *URL=[NSURL URLWithString:[URLApi requestURL]];//不需要传递参数
@@ -344,7 +434,7 @@
     request.HTTPMethod=@"POST";//设置请求方法
     NSString *authCode = [URLApi readAuthCodeString];
     //设置请求体
-    NSString *param=[NSString stringWithFormat:@"Params={\"authCode\":\"%@\",\"keyWord\":\"%@\",\"shopStatus\":\"%@\",\"orderBy\":\"\",\"pageIndex\":\"%d\",\"pageSize\":\"5\"}&Command=tuoke/GetTKerDeptList",[self encodeToPercentEscapeString:authCode],word,state,pg];
+    NSString *param=[NSString stringWithFormat:@"Params={\"authCode\":\"%@\",\"keyWord\":\"%@\",\"shopStatus\":\"%@\",\"isHasDZ\":\"%@\",\"orderBy\":\"\",\"pageIndex\":\"%d\",\"pageSize\":\"5\"}&Command=tuoke/GetTKerDeptList",[self encodeToPercentEscapeString:authCode],word,state,isHaveDZ,pg];
     NSLog(@"http://passport.admin.3weijia.com/MNMNH.axd?command=tuoke?%@",param);
     //把拼接后的字符串转换为data，设置请求体
     request.HTTPBody=[param dataUsingEncoding:NSUTF8StringEncoding];
@@ -419,4 +509,5 @@
     string = [string stringByReplacingOccurrencesOfString:@"\"\",\"ErrorMessage\"" withString:@"\",\"ErrorMessage\""];
     return string;
 }
+
 @end

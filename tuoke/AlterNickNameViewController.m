@@ -92,6 +92,7 @@
      {
          //将得到的NSData数据转换成NSString
          if (connectionError) {
+             
              NSLog(@"网络不给力");
          }
          else

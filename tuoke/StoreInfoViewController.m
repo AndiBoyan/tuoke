@@ -141,7 +141,7 @@
     storeManLineView2.backgroundColor = [UIColor groupTableViewBackgroundColor];
     [storeManView addSubview:storeManLineView2];
     
-    UILabel *loginDateLab = [[UILabel alloc]initWithFrame:CGRectMake(15, 140, 100, 20)];
+    UILabel *loginDateLab = [[UILabel alloc]initWithFrame:CGRectMake(15, 140, 200, 20)];
     loginDateLab.text = [NSString stringWithFormat:@"上次登录时间:%@",lastLoginDate];
     loginDateLab.textColor = [UIColor redColor];
     loginDateLab.textAlignment = NSTextAlignmentLeft;
@@ -150,7 +150,7 @@
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.backgroundColor = [UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:1.0];
-    button.frame = CGRectMake(self.view.frame.size.width-130, 130, 115, 30);
+    button.frame = CGRectMake(self.view.frame.size.width-115, 115, 100, 30);
     [button setTitle:@"再次发送账号" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(sendAccout) forControlEvents:UIControlEventTouchUpInside];
@@ -204,10 +204,13 @@
              address = [JSON objectForKey:@"Address"];
              bookinDate = [JSON objectForKey:@"CreateDate"];
              setUpDate = [JSON objectForKey:@"FirstLoginDate"];
+             NSArray *array = [JSON objectForKey:@"EmployeeList"];
+             if (array.count > 0) {
+                 name = [[[JSON objectForKey:@"EmployeeList"]objectAtIndex:0]objectForKey:@"name"];
+                 phone = [[[JSON objectForKey:@"EmployeeList"]objectAtIndex:0]objectForKey:@"mobile"];
+                 lastLoginDate = [[[JSON objectForKey:@"EmployeeList"]objectAtIndex:0]objectForKey:@"lastLoginDate"];
+             }
              
-             name = [[[JSON objectForKey:@"EmployeeList"]objectAtIndex:0]objectForKey:@"name"];
-             phone = [[[JSON objectForKey:@"EmployeeList"]objectAtIndex:0]objectForKey:@"mobile"];
-             lastLoginDate = [[[JSON objectForKey:@"EmployeeList"]objectAtIndex:0]objectForKey:@"lastLoginDate"];
              
         }
          [self drawView];

@@ -11,7 +11,10 @@
 #import "URLApi.h"
 
 @interface LoginViewController ()
-
+{
+    UITextField *phoneField;
+    UITextField *pwdField;
+}
 @end
 
 @implementation LoginViewController
@@ -49,17 +52,27 @@
 
 -(void)initView
 {
+    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
+    NSArray *array = [userDefaultes arrayForKey:@"login"];
+    NSString *name;
+    NSString *pwd;
+    if (array.count <= 0) {
+        name = @"";
+        pwd = @"";
+    }
+    else
+    {
+        
+        name = [array objectAtIndex:0];
+        pwd = [array objectAtIndex:1];
+    }
     UIView *loginView =[[UIView alloc]initWithFrame:CGRectMake(0, 80, self.view.frame.size.width, 81)];
     loginView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:loginView];
     
-    UILabel *phoneLab = [[UILabel alloc]initWithFrame:CGRectMake(15, 5, 50, 30)];
-    phoneLab.text = @"手机号";
-    phoneLab.font = [UIFont systemFontOfSize:14.0f];
-    phoneLab.textAlignment = NSTextAlignmentLeft;
-    [loginView addSubview:phoneLab];
-    
-    UITextField *phoneField = [[UITextField alloc]initWithFrame:CGRectMake(80, 5, 200, 30)];
+    phoneField = [[UITextField alloc]initWithFrame:CGRectMake(30, 5, self.view.frame.size.width-60, 30)];
+    phoneField.text = name;
+    phoneField.placeholder = @"账号";
     phoneField.borderStyle = UITextBorderStyleRoundedRect;
     phoneField.textAlignment = NSTextAlignmentLeft;
     phoneField.font = [UIFont systemFontOfSize:14.0f];
@@ -69,24 +82,16 @@
     lineView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     [loginView addSubview:lineView];
     
-    UILabel *pwdLab = [[UILabel alloc]initWithFrame:CGRectMake(15, 45, 50, 30)];
-    pwdLab.text = @"手机号";
-    pwdLab.font = [UIFont systemFontOfSize:14.0f];
-    pwdLab.textAlignment = NSTextAlignmentLeft;
-    [loginView addSubview:pwdLab];
     
-    UITextField *pwdField = [[UITextField alloc]initWithFrame:CGRectMake(80, 45, 200, 30)];
+    pwdField = [[UITextField alloc]initWithFrame:CGRectMake(30, 45, self.view.frame.size.width-60, 30)];
     pwdField.borderStyle = UITextBorderStyleRoundedRect;
+    pwdField.secureTextEntry = YES;
+    pwdField.text = pwd;
+    pwdField.placeholder = @"密码";
     pwdField.textAlignment = NSTextAlignmentLeft;
     pwdField.font = [UIFont systemFontOfSize:14.0f];
     [loginView addSubview:pwdField];
-    
-    UIButton *seePwdBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    seePwdBtn.frame =CGRectMake(self.view.frame.size.width-45, 50, 30, 20);
-    [seePwdBtn setTitle:@"see" forState:UIControlStateNormal];
-    [seePwdBtn addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
-    [loginView addSubview:seePwdBtn];
-    
+
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.backgroundColor = [UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:1.0];
     button.frame = CGRectMake(25, 185, self.view.frame.size.width-50, 50);
@@ -100,18 +105,17 @@
     maskLayer1.frame = button.bounds;
     maskLayer1.path = maskPath1.CGPath;
     button.layer.mask = maskLayer1;
-
-    UIButton *findPwd = [UIButton buttonWithType:UIButtonTypeCustom];
-    findPwd.frame =CGRectMake((self.view.frame.size.width-100)/2, 250, 100, 30);
-    [findPwd setTitle:@"see" forState:UIControlStateNormal];
-    [findPwd addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:findPwd];
 }
 
 #pragma mark 用户登录
-
+//qeknio 123123
 -(void)login
 {
+    if ((phoneField.text.length <= 0)||(pwdField.text.length <= 0)) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"用户名或者密码为空" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
     NSURL *URL=[NSURL URLWithString:[URLApi requestURL]];
     NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:URL];
     request.timeoutInterval=10.0;
@@ -119,7 +123,7 @@
     
     NSString *authCode = @"OnxA/jxTBSM91jGmGyREdSjObIc4Z8d2hA/95UiyOSLBUSTAYHKq75hcxsHuN5VsKCJQqB6QpbSH77xgY9lWTBs0nNajsDLpfBAVdB0bqO+RrbEhCgms7bsfclnY+XFn";
    
-    NSString *param=[NSString stringWithFormat:@"Params={\"authCode\":\"%@\",\"account\":\"qeknio\",\"passWord\":\"123123\"}&Command=tuoke/TK_Login",[self encodeToPercentEscapeString:authCode]];
+    NSString *param=[NSString stringWithFormat:@"Params={\"authCode\":\"%@\",\"account\":\"%@\",\"passWord\":\"%@\"}&Command=tuoke/TK_Login",[self encodeToPercentEscapeString:authCode],phoneField.text,pwdField.text];
     NSLog(@"http://passport.admin.3weijia.com/MNMNH.axd?command=tuoke?%@",param);
     
     
@@ -131,7 +135,8 @@
      {
          //将得到的NSData数据转换成NSString
          if (connectionError) {
-             NSLog(@"网络不给力");
+             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"网络异常" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+             [alert show];
          }
          else
          {
@@ -141,12 +146,22 @@
              NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:newData options:NSJSONReadingMutableContainers error:nil];
              NSNumber *loginResult = [[dic objectForKey:@"JSON"]objectForKey:@"loginResult"];
              if (loginResult.intValue == 1) {
-                  ViewController *vc = [[ViewController alloc]init];
-                  [self presentViewController:vc animated:YES completion:nil];
-                 NSString *AuthCode = [[[dic objectForKey:@"JSON"]objectForKey:@"UserInfo"]objectForKey:@"AuthCode"];
                  
-                  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-                  [userDefaults setObject:AuthCode forKey:@"AuthCode"];
+                NSString *AuthCode = [[[dic objectForKey:@"JSON"]objectForKey:@"UserInfo"]objectForKey:@"AuthCode"];
+                NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+                [userDefaults setObject:AuthCode forKey:@"AuthCode"];
+                 
+                 NSArray *arr = [[NSArray alloc]initWithObjects:phoneField.text,pwdField.text, nil];
+                 NSUserDefaults *userDefaul = [NSUserDefaults standardUserDefaults];
+                 [userDefaul setObject:arr forKey:@"login"];
+                 
+                 ViewController *vc = [[ViewController alloc]init];
+                 [self presentViewController:vc animated:YES completion:nil];
+             }
+             else
+             {
+                 UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"用户名或者密码错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                 [alert show];
              }
          }
      }];

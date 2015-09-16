@@ -33,15 +33,18 @@
     self.window.backgroundColor =[UIColor whiteColor];
     ViewController *VC = [[ViewController alloc]init];
     LoginViewController *loginVC = [[LoginViewController alloc]init];
-
-    BOOL A = NO;
-    if (A) {
+    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
+    NSArray *array = [userDefaultes arrayForKey:@"login"];
+    
+    if (array.count <= 0) {
         self.window.rootViewController = loginVC;
     }
     else
+    {
         self.window.rootViewController = VC;
-    
+    }
     [self.window makeKeyAndVisible];
+    
     return YES;
 }
 

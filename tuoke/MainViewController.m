@@ -15,7 +15,9 @@
 #import "URLApi.h"
 
 @interface MainViewController ()
-
+{
+    UIBarButtonItem *rightButton;
+}
 @end
 
 @implementation MainViewController
@@ -23,7 +25,7 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"message.png"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(msg)];
+    rightButton = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"message.png"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(msg)];
     self.navigationItem.rightBarButtonItem = rightButton;
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
@@ -42,7 +44,7 @@
 -(void)initData
 {
     userStateArray = @[@"已登记",@"已开店",@"已充值"];
-    tuokeFuncArray = @[@"开始拓客",@"注册链接",@"店铺演示"];
+    tuokeFuncArray = @[@"开始拓客",@"全景图链接",@"店铺演示"];
     tuokeFuncImageArray = @[@"start.png",@"link.png",@"move.png"];
 }
 
@@ -85,10 +87,19 @@
     for (int i = 0; i < 3; i++) {
         UILabel *numOfLab = [[UILabel alloc]initWithFrame:CGRectMake(i*w, 10, w, 20)];
         numOfLab.textColor =[UIColor redColor];
-        numOfLab.text = @"125";
+        numOfLab.text =[userCountAry objectAtIndex:i];
         numOfLab.textAlignment = NSTextAlignmentCenter;
         numOfLab.font = [UIFont systemFontOfSize:13.0f];
         [stateView addSubview:numOfLab];
+        if (i == 0) {
+            stateLab1 = numOfLab;
+        }
+        else if (i == 1)
+        {
+            stateLab2 = numOfLab;
+        }
+        else
+            stateLab3 = numOfLab;
         
         UILabel *stateOfLab = [[UILabel alloc]initWithFrame:CGRectMake(i*w, 30, w, 20)];
         stateOfLab.textColor =[UIColor whiteColor];
@@ -193,10 +204,58 @@
              name = userNameLab.text;
              phone = [[dic objectForKey:@"JSON"]objectForKey:@"Mobile"];
              nick = [[dic objectForKey:@"JSON"]objectForKey:@"NickName"];
+             userCountAry = [[NSMutableArray alloc]init];
+             NSNumber *countDJSql =[[dic objectForKey:@"JSON"]objectForKey:@"countDJSql"];
+             NSNumber *countKDSql = [[dic objectForKey:@"JSON"]objectForKey:@"countKDSql"];
+             NSNumber *countCZSql = [[dic objectForKey:@"JSON"]objectForKey:@"countCZSql"];
+
+             stateLab1.text = [NSString stringWithFormat:@"%d",countDJSql.intValue];
+             stateLab2.text = [NSString stringWithFormat:@"%d",countKDSql.intValue];
+             stateLab3.text = [NSString stringWithFormat:@"%d",countCZSql.intValue];
          }
      }];
 
 }
+-(void)GetUnReadmsg
+{
+    // 1.设置请求路径
+    NSURL *URL=[NSURL URLWithString:[URLApi requestURL]];//不需要传递参数
+    //    2.创建请求对象
+    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:URL];//默认为get请求
+    request.timeoutInterval=10.0;//设置请求超时为5秒
+    request.HTTPMethod=@"POST";//设置请求方法
+    NSString *authCode = [URLApi readAuthCodeString];
+    
+    //设置请求体
+    NSString *param=[NSString stringWithFormat:@"Params={\"authCode\":\"%@\",\"isReadFlag\":0,\"categoryCode\":\"TK_Msg\",\"module\":\"TouKe\",\"pageIndex\":1,\"pageSize\":10}&Command=common/GetCommonLog",[self encodeToPercentEscapeString:authCode]];
+    NSLog(@"http://passport.admin.3weijia.com/MNMNH.axd?%@",param);
+    //把拼接后的字符串转换为data，设置请求体
+    request.HTTPBody=[param dataUsingEncoding:NSUTF8StringEncoding];
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError)
+     {
+         //将得到的NSData数据转换成NSString
+
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+             
+        //将数据变成标准的json数据
+        NSLog(@"%@",[self newJsonStr:str]);
+        NSData *newData = [[self newJsonStr:str] dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:newData options:NSJSONReadingMutableContainers error:nil];
+        NSDictionary *JSON = [dic objectForKey:@"JSON"];
+        NSArray *ReturnList = [JSON objectForKey:@"ReturnList"];
+         if (ReturnList.count > 0) {
+             rightButton.image = [[UIImage imageNamed:@"message1.png"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+         }
+         else
+         {
+             rightButton.image = [[UIImage imageNamed:@"message.png"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+         }
+    }];
+}
+
+
 
 - (NSString *)encodeToPercentEscapeString: (NSString *) input
 {
@@ -238,6 +297,7 @@
     {
         face.image = [UIImage imageNamed:@"Face.png"];
     }
+    [self GetUnReadmsg];
 }
 
 - (void)didReceiveMemoryWarning {

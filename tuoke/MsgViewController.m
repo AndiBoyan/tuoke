@@ -295,9 +295,9 @@
              
              //将数据变成标准的json数据
              NSLog(@"%@",[self newJsonStr:str]);
-             NSData *newData = [[self newJsonStr:str] dataUsingEncoding:NSUTF8StringEncoding];
+             /*NSData *newData = [[self newJsonStr:str] dataUsingEncoding:NSUTF8StringEncoding];
              NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:newData options:NSJSONReadingMutableContainers error:nil];
-             NSDictionary *JSON = [dic objectForKey:@"JSON"];
+             NSDictionary *JSON = [dic objectForKey:@"JSON"];*/
            
          }
          [table reloadData];
