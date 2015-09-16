@@ -151,7 +151,7 @@
     NSString *authCode = [URLApi readAuthCodeString];
     
     //设置请求体
-    NSString *param=[NSString stringWithFormat:@"Params={\"authCode\":\"%@\",\"isReadFlag\":0,\"categoryCode\":\"TK_Msg\",\"pageIndex\":1,\"pageSize\":10}&Command=common/GetCommonLog",[self encodeToPercentEscapeString:authCode]];
+    NSString *param=[NSString stringWithFormat:@"Params={\"authCode\":\"%@\",\"isReadFlag\":0,\"categoryCode\":\"TK_Msg\",\"module\":\"TouKe\",\"pageIndex\":1,\"pageSize\":10}&Command=common/GetCommonLog",[self encodeToPercentEscapeString:authCode]];
     NSLog(@"http://passport.admin.3weijia.com/MNMNH.axd?%@",param);
     //把拼接后的字符串转换为data，设置请求体
     request.HTTPBody=[param dataUsingEncoding:NSUTF8StringEncoding];
@@ -197,7 +197,7 @@
     NSString *authCode = [URLApi readAuthCodeString];
     
     //设置请求体
-    NSString *param=[NSString stringWithFormat:@"Params={\"authCode\":\"%@\",\"isReadFlag\":1,\"categoryCode\":\"TK_Msg\",\"pageIndex\":1,\"pageSize\":10}&Command=common/GetCommonLog",[self encodeToPercentEscapeString:authCode]];
+    NSString *param=[NSString stringWithFormat:@"Params={\"authCode\":\"%@\",\"isReadFlag\":1,\"categoryCode\":\"TK_Msg\",\"module\":\"TouKe\",\"pageIndex\":1,\"pageSize\":10}&Command=common/GetCommonLog",[self encodeToPercentEscapeString:authCode]];
     NSLog(@"http://passport.admin.3weijia.com/MNMNH.axd?%@",param);
     //把拼接后的字符串转换为data，设置请求体
     request.HTTPBody=[param dataUsingEncoding:NSUTF8StringEncoding];
@@ -213,7 +213,6 @@
          else
          {
              NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-             
              //将数据变成标准的json数据
              NSLog(@"%@",[self newJsonStr:str]);
              NSData *newData = [[self newJsonStr:str] dataUsingEncoding:NSUTF8StringEncoding];
@@ -230,7 +229,6 @@
          }
          [table reloadData];
      }];
-    
 }
 
 - (NSString *)encodeToPercentEscapeString: (NSString *) input
@@ -268,7 +266,7 @@
     NSString *authCode = [URLApi readAuthCodeString];
     
     //设置请求体
-    NSString *param=[NSString stringWithFormat:@"Params={\"authCode\":\"%@\",\"ArticleId\":\"%@\",\"module\":\"TK_Msg\"}&Command=common/SetNewsRead",[self encodeToPercentEscapeString:authCode],msgID];
+    NSString *param=[NSString stringWithFormat:@"Params={\"authCode\":\"%@\",\"ArticleId\":\"%@\",\"module\":\"TouKe\"}&Command=common/SetNewsRead",[self encodeToPercentEscapeString:authCode],msgID];
     NSLog(@"http://passport.admin.3weijia.com/MNMNH.axd?%@",param);
     //把拼接后的字符串转换为data，设置请求体
     request.HTTPBody=[param dataUsingEncoding:NSUTF8StringEncoding];
