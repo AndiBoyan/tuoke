@@ -19,6 +19,8 @@
     NSMutableArray *msgIDArray;
     
     UITableView *table;
+    
+    UILabel *nullDataLab;
 }
 @end
 
@@ -188,6 +190,7 @@
 }
 -(void)GetReadmsg
 {
+    [nullDataLab removeFromSuperview];
     // 1.设置请求路径
     NSURL *URL=[NSURL URLWithString:[URLApi requestURL]];//不需要传递参数
     //    2.创建请求对象
@@ -227,6 +230,13 @@
                  [msgIDArray addObject:[returnlist objectForKey:@"ArticleId"]];
              }
          }
+         if (msgIDArray.count <= 0) {
+             nullDataLab = [[UILabel alloc]initWithFrame:CGRectMake(0, (self.view.frame.size.height/2)-15, self.view.frame.size.width, 30)];
+             nullDataLab.text = @"没有数据信息";
+             nullDataLab.textAlignment = NSTextAlignmentCenter;
+             [self.view addSubview:nullDataLab];
+         }
+
          [table reloadData];
      }];
 }

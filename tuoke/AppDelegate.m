@@ -14,7 +14,6 @@
 @interface AppDelegate ()<BMKGeneralDelegate>
 {
     BMKMapManager* _mapManager;
-    //ssss
 }
 @end
 
@@ -22,7 +21,6 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    //pnAYzADGMp5cfO6ZtVnaYEOn
     // Override point for customization after application launch.
     _mapManager = [[BMKMapManager alloc]init];
     BOOL ret = [_mapManager start:@"pnAYzADGMp5cfO6ZtVnaYEOn" generalDelegate:self];

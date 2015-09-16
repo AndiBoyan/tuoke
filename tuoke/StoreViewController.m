@@ -189,7 +189,7 @@
         DeptIdAry = [[NSMutableArray alloc]init];
         CategoryNameAry = [[NSMutableArray alloc]init];
         openDateAry = [[NSMutableArray alloc]init];
-
+        [storeTableView reloadData];
         [self getTKerDeptList:@"" shopState:@"-1,0,1" page:1];
     }
     else if (index == 1)
