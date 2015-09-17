@@ -26,7 +26,7 @@
     
     mainVC.title = @"首页";
     storeVC.title = @"门店";
-    wealthVC.title = @"财富";
+    wealthVC.title = @"奖励统计";
     
     UINavigationController *mainNav = [[UINavigationController alloc]initWithRootViewController:mainVC];
     UINavigationController *storeNav = [[UINavigationController alloc]initWithRootViewController:storeVC];
@@ -36,23 +36,21 @@
                                     imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     mainNav.tabBarItem.selectedImage = [[UIImage imageNamed:@"first_selected"]
                                             imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    
     storeNav.tabBarItem.image = [[UIImage imageNamed:@"second_normal"]
                                    imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     storeNav.tabBarItem.selectedImage = [[UIImage imageNamed:@"second_selected"]
                                            imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    
     wealthNav.tabBarItem.image = [[UIImage imageNamed:@"third_normal"]
                                     imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     wealthNav.tabBarItem.selectedImage = [[UIImage imageNamed:@"third_selected"]
                                             imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    
     self.viewControllers = [NSArray arrayWithObjects:mainNav,storeNav,wealthNav,nil];
     
     self.tabBar.tintColor = [UIColor redColor];
 }
 
 - (void)didReceiveMemoryWarning {
+    
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }

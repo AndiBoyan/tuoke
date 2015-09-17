@@ -341,7 +341,6 @@
         [self GetUnReadmsg];
         isFlashView = NO;
     }
-   
 }
 
 - (void)didReceiveMemoryWarning {

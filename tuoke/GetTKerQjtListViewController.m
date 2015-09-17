@@ -308,5 +308,12 @@
     string = [string stringByReplacingOccurrencesOfString:@"\"\",\"ErrorMessage\"" withString:@"\",\"ErrorMessage\""];
     return string;
 }
-
+/*
+ [UMSocialSnsService presentSnsIconSheetView:self
+ appKey:@"55fa8188e0f55ae5bb000b6a"
+ shareText:@"你要分享的文字"
+ shareImage:[UIImage imageNamed:@"icon.png"]
+ shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToWechatSession,UMShareToWechatTimeline,UMShareToQQ,nil]
+ delegate:self];
+ */
 @end

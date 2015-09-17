@@ -55,7 +55,6 @@
     [self.view addSubview:storeTableView];
     
     segment = [[UISegmentedControl alloc]initWithItems:@[@"已登记",@"已开店",@"已充值"]];
-    
     segment.frame = CGRectMake(0, 0, 200, 30);
     segment.backgroundColor = [UIColor clearColor];
     segment.selectedSegmentIndex = 0;
@@ -71,8 +70,6 @@
     UIView *HaveDzView = [[UIView alloc]initWithFrame:CGRectMake(0, 65, self.view.frame.size.width, 40)];
     HaveDzView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:HaveDzView];
-    
-   
     
     haveDZButton = [UIButton buttonWithType:UIButtonTypeCustom];
     haveDZButton.showsTouchWhenHighlighted = YES;  //指定按钮被按下时发光
@@ -118,7 +115,6 @@
     page = 1;
     [self initYiRefreshHeader];
     [self initYiRefreshFooter];
-   //[self getTKerDeptList:@"" shopState:0 page:1];
 }
 
 -(void)haveDZ
@@ -404,21 +400,6 @@
         storeStateLab.textAlignment = NSTextAlignmentLeft;
         storeStateLab.font = [UIFont systemFontOfSize:12.0f];
         [view addSubview:storeStateLab];
-        
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.titleLabel.font = [UIFont systemFontOfSize:14.0f];
-        button.backgroundColor = [UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:1.0];
-        button.frame = CGRectMake(self.view.frame.size.width-150, 110, 115, 30);
-        [button setTitle:@"再次发送账号" forState:UIControlStateNormal];
-        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [button addTarget:self action:@selector(sendAccout) forControlEvents:UIControlEventTouchUpInside];
-        [view addSubview:button];
-        
-        UIBezierPath *maskPath2 = [UIBezierPath bezierPathWithRoundedRect:button.bounds  byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(2, 2)];
-        CAShapeLayer *maskLayer2 = [[CAShapeLayer alloc] init];
-        maskLayer2.frame = button.bounds;
-        maskLayer2.path = maskPath2.CGPath;
-        button.layer.mask = maskLayer2;
     }
     return cell;
 }

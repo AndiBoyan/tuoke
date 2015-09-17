@@ -40,7 +40,7 @@
     UINavigationBar *navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 65)];
     //创建一个导航栏集合
     UINavigationItem *navigationItem = [[UINavigationItem alloc] initWithTitle:nil];
-    [navigationItem setTitle:@"实际收益"];
+    [navigationItem setTitle:@"奖励统计"];
     [navigationBar pushNavigationItem:navigationItem animated:NO];
     navigationBar.barStyle = UIBarStyleBlack;
     [navigationBar setBarTintColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.0]];

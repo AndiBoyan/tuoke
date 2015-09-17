@@ -10,6 +10,9 @@
 #import "ViewController.h"
 #import "LoginViewController.h"
 #import <BaiduMapAPI/BMapKit.h>
+#import "UMSocial.h"  
+#import "UMSocialWechatHandler.h"
+#import "UMSocialQQHandler.h"
 
 @interface AppDelegate ()<BMKGeneralDelegate>
 {
@@ -22,6 +25,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [UMSocialData setAppKey:@"55fa8188e0f55ae5bb000b6a"];
+    
+    //设置微信AppId、appSecret，分享url
+    [UMSocialWechatHandler setWXAppId:@"wxf392385470558580" appSecret:@"388710f1c5ef9fd5432bd83538e7e134" url:@"http://www.umeng.com/social"];
+
+    [UMSocialQQHandler setQQWithAppId:@"100424468" appKey:@"c7394704798a158208a74ab60104f0ba" url:@"http://www.umeng.com/social"];
+    [UMSocialConfig hiddenNotInstallPlatforms:@[UMShareToQQ,UMShareToQzone,UMShareToWechatSession,UMShareToWechatTimeline]];
     _mapManager = [[BMKMapManager alloc]init];
     BOOL ret = [_mapManager start:@"pnAYzADGMp5cfO6ZtVnaYEOn" generalDelegate:self];
     

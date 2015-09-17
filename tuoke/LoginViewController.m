@@ -9,8 +9,9 @@
 #import "LoginViewController.h"
 #import "ViewController.h"
 #import "URLApi.h"
+#import "UMSocial.h"
 
-@interface LoginViewController ()
+@interface LoginViewController ()<UMSocialUIDelegate>
 {
     UITextField *phoneField;
     UITextField *pwdField;
@@ -165,6 +166,7 @@
              }
          }
      }];
+    
 }
 
 - (NSString *)encodeToPercentEscapeString: (NSString *) input

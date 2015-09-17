@@ -15,6 +15,7 @@
 #import "VisitNameViewController.h"
 #import "VisitPhoneViewController.h"
 #import "URLApi.h"
+#import "TSLocateView.h"
 
 @interface BookInStoreViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
@@ -396,6 +397,8 @@
     {
         if (indexPath.row == 0) {
             
+            TSLocateView *locateView = [[TSLocateView alloc] initWithTitle:@"定位城市" delegate:self];
+            [locateView showInView:self.view];
         }
         else if (indexPath.row == 1)
         {
@@ -462,9 +465,6 @@
         }
         else if (indexPath.row == 2)
         {
-            /*UIActionSheet *sheet = [[UIActionSheet alloc]initWithTitle:@"请选择拜访人身份" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"店主",@"店长",@"设计师",@"销售经理",@"导购", nil];
-            sheet.tag = 1001;
-            [sheet showInView:self.view];*/
             [self getModule:@"UserIdentity" tag:1001];
         }
     }
@@ -562,9 +562,16 @@
             [self presentViewController:imagePickerController animated:YES completion:^{}];
         }
     }
-    else if (actionSheet.tag == 1003)
+    else
     {
-        
+        TSLocateView *locateView = (TSLocateView *)actionSheet;
+        TSLocation *location = locateView.locate;
+        if(buttonIndex == 0) {
+
+        }else {
+            cityLab.text = location.city;
+            city = location.city;
+        }
     }
 }
 
