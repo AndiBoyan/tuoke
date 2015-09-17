@@ -150,8 +150,9 @@
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.backgroundColor = [UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:1.0];
-    button.frame = CGRectMake(self.view.frame.size.width-115, 115, 100, 30);
+    button.frame = CGRectMake(self.view.frame.size.width-115, 130, 100, 30);
     [button setTitle:@"再次发送账号" forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont systemFontOfSize:14.0f];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(sendAccout) forControlEvents:UIControlEventTouchUpInside];
     [storeManView addSubview:button];

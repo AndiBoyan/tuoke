@@ -15,7 +15,7 @@
     NSArray *tuokeFuncArray;//拓客功能以及功能图标
     NSArray *tuokeFuncImageArray;
     
-    UIImageView *face;//用户头像以及功能
+    UIButton *face;//用户头像以及功能
     UILabel *userNameLab;//用户名
     
     //用户基本信息
@@ -26,5 +26,7 @@
     UILabel *stateLab1;
     UILabel *stateLab2;
     UILabel *stateLab3;
+    
+    UIImage *faceImage;
 }
 @end

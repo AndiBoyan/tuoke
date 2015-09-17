@@ -13,8 +13,9 @@
 
 
 @interface UserInfoViewController ()
-
-
+{
+    NSString *facePath;
+}
 @property UILabel *nickLab;
 
 @end
@@ -150,13 +151,7 @@
                 [cell.contentView addSubview:img1];
                 
                 faveImgView = [[UIImageView alloc]initWithFrame:CGRectMake(self.view.frame.size.width-85, 10, 60, 60)];
-                faceImg = [self readFaceImage];
-                if (faceImg == nil) {
-                    faveImgView.image = [UIImage imageNamed:@"Face.png"];
-                }
-                else{
-                     faveImgView.image = faceImg;
-                }
+                faveImgView.image = self.faceImg;
                 [cell.contentView addSubview:faveImgView];
                 
                 UIBezierPath *maskPath1 = [UIBezierPath bezierPathWithRoundedRect:faveImgView.bounds  byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(30, 30)];
@@ -226,7 +221,7 @@
 {
 
     UIImage *img = [info objectForKey:UIImagePickerControllerEditedImage];
-    faceImg = img;
+    self.faceImg = img;
     faveImgView.image = img;
     [picker dismissViewControllerAnimated:YES completion:nil];
     [self updateImage:img];
@@ -281,6 +276,52 @@
              NSString *FileId = [[dic objectForKey:@"JSON"]objectForKey:@"FileId"];
              NSString *FileFullPath = [[dic objectForKey:@"JSON"]objectForKey:@"FileFullPath"];
              NSLog(@"FileId = %@,FileFullPath = %@",FileId,FileFullPath);
+             facePath = FileFullPath;
+             [self alertNickName];
+         }
+     }];
+}
+
+-(void)alertNickName
+{
+    // 1.设置请求路径
+    NSURL *URL=[NSURL URLWithString:[URLApi requestURL]];//不需要传递参数
+    //    2.创建请求对象
+    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:URL];//默认为get请求
+    request.timeoutInterval=10.0;//设置请求超时为5秒
+    request.HTTPMethod=@"POST";//设置请求方法
+    NSString *authCode = [URLApi readAuthCodeString];
+    //设置请求体
+    NSString *param=[NSString stringWithFormat:@"Params={\"authCode\":\"%@\",\"headIcoPath\":\"%@\"}&Command=tuoke/TK_ModifyEmployeeInfo",[self encodeToPercentEscapeString:authCode],facePath];
+    NSLog(@"http://passport.admin.3weijia.com/MNMNH.axd?command=tuoke?%@",param);
+    //把拼接后的字符串转换为data，设置请求体
+    request.HTTPBody=[param dataUsingEncoding:NSUTF8StringEncoding];
+    
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError)
+     {
+         //将得到的NSData数据转换成NSString
+         if (connectionError) {
+             
+             NSLog(@"网络不给力");
+         }
+         else
+         {
+             NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+             
+             //将数据变成标准的json数据
+             NSData *newData = [str dataUsingEncoding:NSUTF8StringEncoding];
+             NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:newData options:NSJSONReadingMutableContainers error:nil];
+             NSString *JSON = [dic objectForKey:@"JSON"];
+             if ([JSON isEqualToString:@"true"]) {
+
+             }
+             else
+             {
+                 UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"修改密码失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                 [alert show];
+             }
          }
      }];
 }

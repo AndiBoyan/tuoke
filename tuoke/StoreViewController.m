@@ -10,7 +10,6 @@
 #import "StoreInfoViewController.h"
 #import "BookInStoreViewController.h"
 #import "URLApi.h"
-#import "ColorButton.h"
 
 @interface StoreViewController ()<UITextFieldDelegate>
 {
@@ -37,7 +36,7 @@
     
     UILabel *nullDataLab;
     NSString *storeType;
-    
+    NSString *isHaveDZString;
     int page;
 }
 @end
@@ -115,6 +114,7 @@
     openDateAry = [[NSMutableArray alloc]init];
     
     storeType = @"-1,0,1";
+    isHaveDZString = @"";
     page = 1;
     [self initYiRefreshHeader];
     [self initYiRefreshFooter];
@@ -125,6 +125,7 @@
 {
     haveDZButtonView.hidden = NO;
     notHaveDZButtonView.hidden = YES;
+    isHaveDZString = @"true";
     haveDZButton.backgroundColor = [UIColor groupTableViewBackgroundColor];
     notHaveDZButton.backgroundColor = [UIColor whiteColor];
      page = 1;
@@ -139,6 +140,7 @@
 }
 -(void)notHaveDZ
 {
+    isHaveDZString = @"false";
     haveDZButtonView.hidden = YES;
     notHaveDZButtonView.hidden = NO;
     haveDZButton.backgroundColor = [UIColor whiteColor];
@@ -165,7 +167,7 @@
         // 后台执行：
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             
-            [self getTKerDeptList:@"" shopState:storeType isHaveDz:@"" page:page];
+            [self getTKerDeptList:@"" shopState:storeType isHaveDz:isHaveDZString page:page];
         
         
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -192,7 +194,7 @@
         // 后台执行：
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             
-            [self getTKerDeptList:@"" shopState:storeType isHaveDz:@"" page:1];
+            [self getTKerDeptList:@"" shopState:storeType isHaveDz:isHaveDZString page:page];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 // 主线程刷新视图
@@ -259,6 +261,7 @@
     if (index == 0) {
         haveDZButtonView.hidden = NO;
         notHaveDZButtonView.hidden = YES;
+        isHaveDZString = @"";
         haveDZButton.backgroundColor = [UIColor groupTableViewBackgroundColor];
         notHaveDZButton.backgroundColor = [UIColor whiteColor];
         storeType = @"-1,0,1";
@@ -275,7 +278,7 @@
     }
     else if (index == 1)
     {
-        
+        isHaveDZString = @"";
         haveDZButtonView.hidden = NO;
         notHaveDZButtonView.hidden = YES;
         haveDZButton.backgroundColor = [UIColor groupTableViewBackgroundColor];
@@ -294,6 +297,7 @@
     }
     else
     {
+        isHaveDZString = @"";
         haveDZButtonView.hidden = NO;
         notHaveDZButtonView.hidden = YES;
         haveDZButton.backgroundColor = [UIColor groupTableViewBackgroundColor];
@@ -344,7 +348,14 @@
         [cell.contentView addSubview:view];
         
         UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(15, 15, 60, 60)];
-        imageView.image = [UIImage imageNamed:@"storelogo.png"];
+        
+        NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[ShopImageAry objectAtIndex:indexPath.row]]];
+        if ([UIImage imageWithData:imageData]) {
+           
+            imageView.image = [UIImage imageWithData:imageData];
+        }
+        else
+            imageView.image = [UIImage imageNamed:@"Face.png"];
         [view addSubview:imageView];
         
         UILabel *storeName = [[UILabel alloc]initWithFrame:CGRectMake(90, 15, 200, 20)];
@@ -421,7 +432,7 @@
 }
 -(void)sendAccout
 {
-    
+    NSLog(@"1");
 }
 
 -(void)getTKerDeptList:(NSString *)word shopState:(NSString*)state isHaveDz:(NSString*)isHaveDZ page:(int)pg
@@ -465,7 +476,7 @@
                  }
 
                  [DeptIdAry addObject:[list objectForKey:@"DeptId"]];
-                 [ShopImageAry addObject:[list objectForKey:@"ShopImage"]];
+                 [ShopImageAry addObject:[NSString stringWithFormat:@"%@%@",[URLApi imageURL],[list objectForKey:@"ShopImage"]]];
                  [DeptNameAry addObject:[list objectForKey:@"DeptName"]];
                  [addressAry addObject:[list objectForKey:@"Address"]];
                  [openDateAry addObject:[list objectForKey:@"OpenDate"]];
@@ -475,7 +486,7 @@
             }
              if (DeptIdAry.count <= 0) {
                  nullDataLab = [[UILabel alloc]initWithFrame:CGRectMake(0, (self.view.frame.size.height/2)-15, self.view.frame.size.width, 30)];
-                 nullDataLab.text = @"没有数据信息";
+                 nullDataLab.text = @"没有店铺信息";
                  nullDataLab.textAlignment = NSTextAlignmentCenter;
                  [self.view addSubview:nullDataLab];
              }

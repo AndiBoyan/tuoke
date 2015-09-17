@@ -15,10 +15,10 @@
     NSArray *userInfoArray1;
     NSArray *userInfoArray2;
         
-    UIImage *faceImg;
+    
     UIImageView *faveImgView;
 }
-
+@property UIImage *faceImg;
 @property NSString *name;
 @property NSString *phone;
 @property NSString *nickName;

@@ -11,12 +11,15 @@
 #import "BookInStoreViewController.h"
 #import "LinkViewController.h"
 #import "MsgViewController.h"
+#import "GetTKerQjtListViewController.h"
 
 #import "URLApi.h"
 
 @interface MainViewController ()
 {
     UIBarButtonItem *rightButton;
+    UIImage *urlLoadImage;
+    BOOL isFlashView;
 }
 @end
 
@@ -25,6 +28,7 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    isFlashView = NO;
     rightButton = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"message.png"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(msg)];
     self.navigationItem.rightBarButtonItem = rightButton;
     // Do any additional setup after loading the view.
@@ -44,7 +48,7 @@
 -(void)initData
 {
     userStateArray = @[@"已登记",@"已开店",@"已充值"];
-    tuokeFuncArray = @[@"开始拓客",@"全景图链接",@"店铺演示"];
+    tuokeFuncArray = @[@"开始拓客",@"全景图",@"店铺演示"];
     tuokeFuncImageArray = @[@"start.png",@"link.png",@"move.png"];
 }
 
@@ -60,8 +64,11 @@
     UIImageView *infoIV = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 210)];
     infoIV.image = [UIImage imageNamed:@"background.png"];
     [scroll addSubview:infoIV];
-    
-    face = [[UIImageView alloc]initWithFrame:CGRectMake((self.view.frame.size.width-80)/2, 25, 80, 80)];
+
+    face = [UIButton buttonWithType:UIButtonTypeCustom];
+    face.frame = CGRectMake((self.view.frame.size.width-80)/2, 25, 80, 80);
+    [face setImage:[[UIImage imageNamed:@"Face.png"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
+    [face addTarget:self action:@selector(userInfoList) forControlEvents:UIControlEventTouchUpInside];
     [scroll addSubview:face];
     
     UIBezierPath *maskPath1 = [UIBezierPath bezierPathWithRoundedRect:face.bounds  byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(40, 40)];
@@ -70,9 +77,6 @@
     maskLayer1.path = maskPath1.CGPath;
     face.layer.mask = maskLayer1;
     
-    face.userInteractionEnabled=YES;
-    UITapGestureRecognizer *singleTap =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(userInfoList:)];
-    [face addGestureRecognizer:singleTap];
     
     userNameLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 115, self.view.frame.size.width, 20)];
     userNameLab.textAlignment = NSTextAlignmentCenter;
@@ -118,14 +122,15 @@
     [scroll addSubview:expandView];
     
     for (int i = 0; i < 3; i++) {
-        UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake((w*i)+(w-60)/2, 30, 59, 59)];
-        imageView.image = [UIImage imageNamed:[tuokeFuncImageArray objectAtIndex:i]];
-        imageView.tag = 1000+i;
-        [expandView addSubview:imageView];
         
-        imageView.userInteractionEnabled=YES;
-        UITapGestureRecognizer *singleTap =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(expand:)];
-        [imageView addGestureRecognizer:singleTap];
+        
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.frame = CGRectMake((w*i)+(w-60)/2, 30, 59, 59);
+        button.tag = 1000+i;
+        [button setImage:[[UIImage imageNamed:[tuokeFuncImageArray objectAtIndex:i]]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(expand:) forControlEvents:UIControlEventTouchUpInside];
+        [expandView addSubview:button];
+
 
         UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(i*w, 100, w, 20)];
         label.text = [tuokeFuncArray objectAtIndex:i];
@@ -137,31 +142,33 @@
 
 #pragma mark 响应函数
 
--(void)userInfoList:(UITapGestureRecognizer *)recognizer
+-(void)userInfoList
 {
+    isFlashView = YES;
     UserInfoViewController *VC = [[UserInfoViewController alloc]init];
     VC.name = name;
+    VC.faceImg = faceImage;
     VC.phone = phone;
     VC.nickName = nick;
     [self presentViewController:VC animated:YES completion:nil];
 }
 
--(void)expand:(UITapGestureRecognizer *)recognizer
+-(void)expand:(id)sender
 {
-    UIImageView *img=(UIImageView*)recognizer.view;
-    if (img.tag == 1000) {
+    UIButton *btn = (UIButton*)sender;
+    if (btn.tag == 1000) {
         BookInStoreViewController *VC = [[BookInStoreViewController alloc]init];
         [self presentViewController:VC animated:YES completion:nil];
     }
-    else if (img.tag == 1001)
+    else if (btn.tag == 1001)
     {
-        LinkViewController *vc = [[LinkViewController alloc]init];
+        GetTKerQjtListViewController *vc = [[GetTKerQjtListViewController alloc]init];
         [self presentViewController:vc animated:YES completion:nil];
     }
     else
     {
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"敬请期待" message:@"更多内容，敬请期待" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-        [alert show];
+        NSURL* url = [[ NSURL alloc ] initWithString :[URLApi storeUrl]];
+       [[UIApplication sharedApplication ] openURL: url ];
     }
 }
 
@@ -212,10 +219,36 @@
              stateLab1.text = [NSString stringWithFormat:@"%d",countDJSql.intValue];
              stateLab2.text = [NSString stringWithFormat:@"%d",countKDSql.intValue];
              stateLab3.text = [NSString stringWithFormat:@"%d",countCZSql.intValue];
+             
+             NSString *UserHeadIcoPath = [[dic objectForKey:@"JSON"]objectForKey:@"UserHeadIcoPath"];
+             NSString *imageURL = [NSString stringWithFormat:@"%@%@",[URLApi imageURL],UserHeadIcoPath];
+             NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
+             urlLoadImage = [UIImage imageWithData:imageData];
+             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+             NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"userface.png"]];   // 保存文件的名称
+             ;
+             UIImage *img = [UIImage imageWithContentsOfFile:filePath];
+             if (img) {
+                 [face setImage:[img imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
+                 faceImage = img;
+             }
+             else
+             {
+                 if (urlLoadImage) {
+                [face setImage:[urlLoadImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
+                     faceImage = urlLoadImage;
+                 }
+                 else
+                 {
+                     [face setImage:[[UIImage imageNamed:@"Face.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
+                     faceImage = [UIImage imageNamed:@"Face.png"];
+
+                 }
+            }
          }
      }];
-
 }
+
 -(void)GetUnReadmsg
 {
     // 1.设置请求路径
@@ -255,8 +288,6 @@
     }];
 }
 
-
-
 - (NSString *)encodeToPercentEscapeString: (NSString *) input
 {
     // Encode all the reserved characters, per RFC 3986
@@ -285,19 +316,32 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    //头像更换
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
-    NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"userface.png"]];   // 保存文件的名称
-    ;
-    UIImage *img = [UIImage imageWithContentsOfFile:filePath];
-    if (img) {
-        face.image = img;
+    if (isFlashView) {
+        //头像更换
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+        NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"userface.png"]];   // 保存文件的名称
+        ;
+        UIImage *img = [UIImage imageWithContentsOfFile:filePath];
+        if (img) {
+            [face setImage:[img imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
+            faceImage = img;
+        }
+        else
+        {
+            if (urlLoadImage) {
+                [face setImage:[urlLoadImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
+                faceImage = urlLoadImage;
+            }
+            else
+            {
+                [face setImage:[[UIImage imageNamed:@"Face.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
+                faceImage = [UIImage imageNamed:@"Face.png"];
+            }
+        }
+        [self GetUnReadmsg];
+        isFlashView = NO;
     }
-    else
-    {
-        face.image = [UIImage imageNamed:@"Face.png"];
-    }
-    [self GetUnReadmsg];
+   
 }
 
 - (void)didReceiveMemoryWarning {

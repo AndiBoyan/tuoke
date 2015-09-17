@@ -21,4 +21,14 @@
     NSString *authCode = [userDefaultes stringForKey:@"AuthCode"];
     return authCode;
 }
+
++(NSString *)imageURL
+{
+    return @"http://passport.admin.3weijia.com";
+}
+
++(NSString *) storeUrl
+{
+    return @"http://www.3vjia.com";
+}
 @end

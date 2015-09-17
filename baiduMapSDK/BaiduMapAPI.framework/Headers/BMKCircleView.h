@@ -18,6 +18,7 @@
  *根据指定圆生成对应的View
  *@param circle 指定的圆
  *@return 生成的View
+ 
  */
 - (id)initWithCircle:(BMKCircle *)circle;
 

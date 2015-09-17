@@ -13,4 +13,9 @@
 +(NSString *)requestURL;
 
 +(NSString *)readAuthCodeString;
+
++(NSString *)imageURL;
+
++(NSString *) storeUrl;
+
 @end

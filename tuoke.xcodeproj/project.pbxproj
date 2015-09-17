@@ -7,9 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9F0B473A1BA90EAE00256189 /* ColorButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F0B47391BA90EAE00256189 /* ColorButton.m */; };
 		9F0B473D1BA93F8600256189 /* message1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F0B473B1BA93F8600256189 /* message1@2x.png */; };
 		9F0B473E1BA93F8600256189 /* message1@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F0B473C1BA93F8600256189 /* message1@3x.png */; };
+		9F0B47411BA9590700256189 /* GetTKerQjtListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F0B47401BA9590700256189 /* GetTKerQjtListViewController.m */; };
+		9F0B474D1BA95A2100256189 /* JSGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F0B474A1BA95A2100256189 /* JSGridView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9F0B474E1BA95A2100256189 /* JSGridViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F0B474C1BA95A2100256189 /* JSGridViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9F0B47501BA95EFD00256189 /* delete_img.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F0B474F1BA95EFD00256189 /* delete_img.png */; };
+		9F0B47531BA9684F00256189 /* background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F0B47511BA9684F00256189 /* background@2x.png */; };
+		9F0B47541BA9684F00256189 /* background@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F0B47521BA9684F00256189 /* background@3x.png */; };
 		9F545CCB1BA7B32100A67D25 /* URLApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F545CCA1BA7B32100A67D25 /* URLApi.m */; };
 		9F545CD21BA7BE9900A67D25 /* down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F545CCD1BA7BE9900A67D25 /* down@2x.png */; };
 		9F545CD31BA7BE9900A67D25 /* YiRefreshFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F545CCF1BA7BE9900A67D25 /* YiRefreshFooter.m */; };
@@ -40,7 +45,6 @@
 		9F634CC61BA18B6100FDFD45 /* move@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F634CBE1BA18B6100FDFD45 /* move@3x.png */; };
 		9F634CC71BA18B6100FDFD45 /* start@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F634CBF1BA18B6100FDFD45 /* start@2x.png */; };
 		9F634CC81BA18B6100FDFD45 /* start@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F634CC01BA18B6100FDFD45 /* start@3x.png */; };
-		9F634CCA1BA18E2E00FDFD45 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F634CC91BA18E2E00FDFD45 /* background.png */; };
 		9F634CD11BA18F7200FDFD45 /* first_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F634CCB1BA18F7200FDFD45 /* first_normal@2x.png */; };
 		9F634CD21BA18F7200FDFD45 /* first_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F634CCC1BA18F7200FDFD45 /* first_selected@2x.png */; };
 		9F634CD31BA18F7200FDFD45 /* second_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F634CCD1BA18F7200FDFD45 /* second_normal@2x.png */; };
@@ -69,7 +73,6 @@
 		9F7B9A8F1BA01546009935E0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B9A8E1BA01546009935E0 /* AppDelegate.m */; };
 		9F7B9A921BA01546009935E0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B9A911BA01546009935E0 /* ViewController.m */; };
 		9F7B9A971BA01546009935E0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F7B9A961BA01546009935E0 /* Images.xcassets */; };
-		9F7B9A9A1BA01546009935E0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F7B9A981BA01546009935E0 /* LaunchScreen.xib */; };
 		9F7B9AA61BA01547009935E0 /* tuokeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B9AA51BA01547009935E0 /* tuokeTests.m */; };
 		9F7B9AB11BA0162F009935E0 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B9AB01BA0162F009935E0 /* LoginViewController.m */; };
 		9F7B9AB41BA01BE0009935E0 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B9AB31BA01BE0009935E0 /* MainViewController.m */; };
@@ -95,10 +98,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		9F0B47381BA90EAE00256189 /* ColorButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorButton.h; sourceTree = "<group>"; };
-		9F0B47391BA90EAE00256189 /* ColorButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorButton.m; sourceTree = "<group>"; };
 		9F0B473B1BA93F8600256189 /* message1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "message1@2x.png"; sourceTree = "<group>"; };
 		9F0B473C1BA93F8600256189 /* message1@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "message1@3x.png"; sourceTree = "<group>"; };
+		9F0B473F1BA9590700256189 /* GetTKerQjtListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetTKerQjtListViewController.h; sourceTree = "<group>"; };
+		9F0B47401BA9590700256189 /* GetTKerQjtListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetTKerQjtListViewController.m; sourceTree = "<group>"; };
+		9F0B47491BA95A2100256189 /* JSGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSGridView.h; sourceTree = "<group>"; };
+		9F0B474A1BA95A2100256189 /* JSGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSGridView.m; sourceTree = "<group>"; };
+		9F0B474B1BA95A2100256189 /* JSGridViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSGridViewCell.h; sourceTree = "<group>"; };
+		9F0B474C1BA95A2100256189 /* JSGridViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSGridViewCell.m; sourceTree = "<group>"; };
+		9F0B474F1BA95EFD00256189 /* delete_img.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_img.png; sourceTree = "<group>"; };
+		9F0B47511BA9684F00256189 /* background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background@2x.png"; sourceTree = "<group>"; };
+		9F0B47521BA9684F00256189 /* background@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background@3x.png"; sourceTree = "<group>"; };
 		9F545CC91BA7B32100A67D25 /* URLApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLApi.h; sourceTree = "<group>"; };
 		9F545CCA1BA7B32100A67D25 /* URLApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLApi.m; sourceTree = "<group>"; };
 		9F545CCD1BA7BE9900A67D25 /* down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "down@2x.png"; sourceTree = "<group>"; };
@@ -140,7 +150,6 @@
 		9F634CBE1BA18B6100FDFD45 /* move@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "move@3x.png"; sourceTree = "<group>"; };
 		9F634CBF1BA18B6100FDFD45 /* start@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "start@2x.png"; sourceTree = "<group>"; };
 		9F634CC01BA18B6100FDFD45 /* start@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "start@3x.png"; sourceTree = "<group>"; };
-		9F634CC91BA18E2E00FDFD45 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		9F634CCB1BA18F7200FDFD45 /* first_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first_normal@2x.png"; sourceTree = "<group>"; };
 		9F634CCC1BA18F7200FDFD45 /* first_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first_selected@2x.png"; sourceTree = "<group>"; };
 		9F634CCD1BA18F7200FDFD45 /* second_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second_normal@2x.png"; sourceTree = "<group>"; };
@@ -173,7 +182,6 @@
 		9F7B9A901BA01546009935E0 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		9F7B9A911BA01546009935E0 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		9F7B9A961BA01546009935E0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		9F7B9A991BA01546009935E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		9F7B9A9F1BA01547009935E0 /* tuokeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = tuokeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F7B9AA41BA01547009935E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9F7B9AA51BA01547009935E0 /* tuokeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = tuokeTests.m; sourceTree = "<group>"; };
@@ -226,6 +234,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9F0B47481BA95A2100256189 /* GallerySDK */ = {
+			isa = PBXGroup;
+			children = (
+				9F0B47491BA95A2100256189 /* JSGridView.h */,
+				9F0B474A1BA95A2100256189 /* JSGridView.m */,
+				9F0B474B1BA95A2100256189 /* JSGridViewCell.h */,
+				9F0B474C1BA95A2100256189 /* JSGridViewCell.m */,
+			);
+			path = GallerySDK;
+			sourceTree = SOURCE_ROOT;
+		};
 		9F545CCC1BA7BE9900A67D25 /* YiRefresh */ = {
 			isa = PBXGroup;
 			children = (
@@ -253,6 +272,8 @@
 				9F634C991BA1246100FDFD45 /* MsgViewController.m */,
 				9F634C9B1BA1246F00FDFD45 /* MsgInfoViewController.h */,
 				9F634C9C1BA1246F00FDFD45 /* MsgInfoViewController.m */,
+				9F0B473F1BA9590700256189 /* GetTKerQjtListViewController.h */,
+				9F0B47401BA9590700256189 /* GetTKerQjtListViewController.m */,
 			);
 			name = "首页";
 			sourceTree = "<group>";
@@ -307,6 +328,9 @@
 		9F634CA81BA162BC00FDFD45 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				9F0B47511BA9684F00256189 /* background@2x.png */,
+				9F0B47521BA9684F00256189 /* background@3x.png */,
+				9F0B474F1BA95EFD00256189 /* delete_img.png */,
 				9F0B473B1BA93F8600256189 /* message1@2x.png */,
 				9F0B473C1BA93F8600256189 /* message1@3x.png */,
 				9F545D0A1BA8021400A67D25 /* message@2x.png */,
@@ -327,7 +351,6 @@
 				9F634CCE1BA18F7200FDFD45 /* second_selected@2x.png */,
 				9F634CCF1BA18F7200FDFD45 /* third_normal@2x.png */,
 				9F634CD01BA18F7200FDFD45 /* third_selected@2x.png */,
-				9F634CC91BA18E2E00FDFD45 /* background.png */,
 				9F634CB91BA18B6100FDFD45 /* Face@2x.png */,
 				9F634CBA1BA18B6100FDFD45 /* Face@3x.png */,
 				9F634CBB1BA18B6100FDFD45 /* link@2x.png */,
@@ -380,11 +403,10 @@
 		9F7B9A881BA01546009935E0 /* tuoke */ = {
 			isa = PBXGroup;
 			children = (
-				9F545CCC1BA7BE9900A67D25 /* YiRefresh */,
 				9F545CC91BA7B32100A67D25 /* URLApi.h */,
 				9F545CCA1BA7B32100A67D25 /* URLApi.m */,
-				9F0B47381BA90EAE00256189 /* ColorButton.h */,
-				9F0B47391BA90EAE00256189 /* ColorButton.m */,
+				9F0B47481BA95A2100256189 /* GallerySDK */,
+				9F545CCC1BA7BE9900A67D25 /* YiRefresh */,
 				9F634CA11BA14F0D00FDFD45 /* 登录 */,
 				9F634C9E1BA14EAE00FDFD45 /* 首页 */,
 				9F634C9F1BA14EC700FDFD45 /* 门店 */,
@@ -394,7 +416,6 @@
 				9F7B9A901BA01546009935E0 /* ViewController.h */,
 				9F7B9A911BA01546009935E0 /* ViewController.m */,
 				9F7B9A961BA01546009935E0 /* Images.xcassets */,
-				9F7B9A981BA01546009935E0 /* LaunchScreen.xib */,
 				9F7B9A891BA01546009935E0 /* Supporting Files */,
 			);
 			path = tuoke;
@@ -481,9 +502,11 @@
 				TargetAttributes = {
 					9F7B9A851BA01546009935E0 = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = 4V8N37RPLP;
 					};
 					9F7B9A9E1BA01547009935E0 = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = 4V8N37RPLP;
 						TestTargetID = 9F7B9A851BA01546009935E0;
 					};
 				};
@@ -514,7 +537,6 @@
 			files = (
 				9F634CC61BA18B6100FDFD45 /* move@3x.png in Resources */,
 				9F634CB71BA1889200FDFD45 /* search@2x.png in Resources */,
-				9F7B9A9A1BA01546009935E0 /* LaunchScreen.xib in Resources */,
 				9F634CC71BA18B6100FDFD45 /* start@2x.png in Resources */,
 				9F634CD21BA18F7200FDFD45 /* first_selected@2x.png in Resources */,
 				9F634CDD1BA1904A00FDFD45 /* first_normal@3x.png in Resources */,
@@ -522,8 +544,10 @@
 				9F66D6C51BA27A2F00E7884D /* into@3x.png in Resources */,
 				9F634CB61BA1889200FDFD45 /* cancle@3x.png in Resources */,
 				9F634CC41BA18B6100FDFD45 /* link@3x.png in Resources */,
+				9F0B47531BA9684F00256189 /* background@2x.png in Resources */,
 				9F634CD31BA18F7200FDFD45 /* second_normal@2x.png in Resources */,
 				9F634CC81BA18B6100FDFD45 /* start@3x.png in Resources */,
+				9F0B47501BA95EFD00256189 /* delete_img.png in Resources */,
 				9F66D6C01BA26A1B00E7884D /* storelogo@2x.png in Resources */,
 				9F634CDF1BA1904A00FDFD45 /* second_normal@3x.png in Resources */,
 				9F634CB81BA1889200FDFD45 /* search@3x.png in Resources */,
@@ -533,13 +557,13 @@
 				9F634CD51BA18F7200FDFD45 /* third_normal@2x.png in Resources */,
 				9F634CDE1BA1904A00FDFD45 /* first_selected@3x.png in Resources */,
 				9F545D0D1BA8021400A67D25 /* message@3x.png in Resources */,
+				9F0B47541BA9684F00256189 /* background@3x.png in Resources */,
 				9F634CC21BA18B6100FDFD45 /* Face@3x.png in Resources */,
 				9F66D6C41BA27A2F00E7884D /* into@2x.png in Resources */,
 				9F545D0C1BA8021400A67D25 /* message@2x.png in Resources */,
 				9F0B473E1BA93F8600256189 /* message1@3x.png in Resources */,
 				9F634CB51BA1889200FDFD45 /* cancle@2x.png in Resources */,
 				9F545CD21BA7BE9900A67D25 /* down@2x.png in Resources */,
-				9F634CCA1BA18E2E00FDFD45 /* background.png in Resources */,
 				9F634CD11BA18F7200FDFD45 /* first_normal@2x.png in Resources */,
 				9F66D6C11BA26A1B00E7884D /* storelogo@3x.png in Resources */,
 				9F7B9A971BA01546009935E0 /* Images.xcassets in Resources */,
@@ -575,7 +599,6 @@
 				9FEAA40C1BA6A565000C6E9B /* StoreManPhoneViewController.m in Sources */,
 				9F7B9AB11BA0162F009935E0 /* LoginViewController.m in Sources */,
 				9F634C911BA11C0E00FDFD45 /* AlterNickNameViewController.m in Sources */,
-				9F0B473A1BA90EAE00256189 /* ColorButton.m in Sources */,
 				9FEAA4091BA6A439000C6E9B /* StoreManNameViewController.m in Sources */,
 				9F545CCB1BA7B32100A67D25 /* URLApi.m in Sources */,
 				9F7B9A921BA01546009935E0 /* ViewController.m in Sources */,
@@ -585,6 +608,7 @@
 				9F634C941BA1202100FDFD45 /* ProfitViewController.m in Sources */,
 				9F634C971BA122D400FDFD45 /* RuleViewController.m in Sources */,
 				9FEAA40F1BA6A6EC000C6E9B /* VisitNameViewController.m in Sources */,
+				9F0B47411BA9590700256189 /* GetTKerQjtListViewController.m in Sources */,
 				9F634C9A1BA1246100FDFD45 /* MsgViewController.m in Sources */,
 				9F7B9ABD1BA02AB2009935E0 /* StoreInfoViewController.m in Sources */,
 				9F634CA41BA150BC00FDFD45 /* BookInStoreViewController.mm in Sources */,
@@ -592,8 +616,10 @@
 				9F634CA71BA1532000FDFD45 /* LinkViewController.m in Sources */,
 				9F7B9AB41BA01BE0009935E0 /* MainViewController.m in Sources */,
 				9F545CD31BA7BE9900A67D25 /* YiRefreshFooter.m in Sources */,
+				9F0B474E1BA95A2100256189 /* JSGridViewCell.m in Sources */,
 				9F7B9A8C1BA01546009935E0 /* main.m in Sources */,
 				9F634C8E1BA1144200FDFD45 /* UserInfoViewController.m in Sources */,
+				9F0B474D1BA95A2100256189 /* JSGridView.m in Sources */,
 				9FEAA4061BA69F44000C6E9B /* StoreAddressViewController.m in Sources */,
 				9F545CD41BA7BE9900A67D25 /* YiRefreshHeader.m in Sources */,
 			);
@@ -617,17 +643,6 @@
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		9F7B9A981BA01546009935E0 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9F7B9A991BA01546009935E0 /* Base */,
-			);
-			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		9F7B9AA71BA01547009935E0 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -646,7 +661,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: zhuang jianchao (JGPK8QR2Z4)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: zhuang jianchao (JGPK8QR2Z4)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -668,6 +684,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "c5944c4c-a51c-4eb4-88da-1e06e30b9daf";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -690,7 +707,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: zhuang jianchao (JGPK8QR2Z4)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: zhuang jianchao (JGPK8QR2Z4)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -705,6 +723,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "c5944c4c-a51c-4eb4-88da-1e06e30b9daf";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -715,6 +734,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: zhuang jianchao (JGPK8QR2Z4)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/baiduMapSDK",
@@ -723,6 +744,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "c5944c4c-a51c-4eb4-88da-1e06e30b9daf";
 			};
 			name = Debug;
 		};
@@ -730,6 +752,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: zhuang jianchao (JGPK8QR2Z4)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: zhuang jianchao (JGPK8QR2Z4)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/baiduMapSDK",
@@ -738,6 +763,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "c5944c4c-a51c-4eb4-88da-1e06e30b9daf";
 			};
 			name = Release;
 		};
@@ -745,6 +771,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -756,6 +784,7 @@
 				INFOPLIST_FILE = tuokeTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/tuoke.app/tuoke";
 			};
 			name = Debug;
@@ -764,6 +793,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -771,6 +802,7 @@
 				INFOPLIST_FILE = tuokeTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/tuoke.app/tuoke";
 			};
 			name = Release;
